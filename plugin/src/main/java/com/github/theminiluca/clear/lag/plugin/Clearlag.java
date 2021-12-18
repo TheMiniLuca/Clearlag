@@ -55,7 +55,7 @@ public class Clearlag extends JavaPlugin implements Listener {
                 logger.info("this is plugin latest version");
             } else {
                 logger.warning("this is plugin old version! please update! ( new version : " + var + " )");
-                logger.warning("https://www.spigotmc.org/resources/clearlag.98441/");
+                logger.warning("https://www.spigotmc.org/resources/clearlag.98464/");
             }
         });
 
@@ -76,10 +76,10 @@ public class Clearlag extends JavaPlugin implements Listener {
         Player player = event.getPlayer();
         if (player.isOp() || player.getUniqueId().toString().equalsIgnoreCase("f47b3f97-4891-43e7-a5d3-5c3b98c2b3f7")) {
             player.sendMessage(ChatColor.GREEN + "[CLEARLAG] The plugin is operating on that server!");
-            new UpdateChecker(this, 98441).getLastVersion(var -> {
+            new UpdateChecker(this, 98464).getLastVersion(var -> {
                 if (!this.getDescription().getVersion().equalsIgnoreCase(var)) {
                     player.sendMessage(ChatColor.RED + "this is plugin old version! please update!");
-                    player.sendMessage(ChatColor.RED + "https://www.spigotmc.org/resources/clearlag.98441/");
+                    player.sendMessage(ChatColor.RED + "https://www.spigotmc.org/resources/clearlag.98464/");
                 }
             });
 
