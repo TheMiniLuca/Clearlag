@@ -26,6 +26,9 @@ public class Clearlag extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        Metrics metrics = new Metrics(this, 13638);
+
+        metrics.addCustomChart(new Metrics.SimplePie("Clearlag", () -> "Server"));
         String packageName = this.getServer().getClass().getPackage().getName();
         AtomicReference<String> version = new AtomicReference<>(packageName.substring(packageName.lastIndexOf('.') + 1));
         plugin = this;
