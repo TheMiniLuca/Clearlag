@@ -11,8 +11,8 @@ import java.util.Scanner;
 import java.util.function.Consumer;
 
 public class UpdateChecker {
-    private Clearlag plugin;
-    private int resourseId;
+    private final Clearlag plugin;
+    private final int resourseId;
 
     public UpdateChecker(Clearlag plugin, int resourseId) {
         this.plugin = plugin;

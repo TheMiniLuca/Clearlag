@@ -1,11 +1,10 @@
-package com.github.theminiluca.clear.lag.nms.v1_16_R3.tasks;
+package com.github.theminiluca.clear.lag.nms.v1_14_R1.tasks;
 
 import com.github.theminiluca.clear.lag.util.ReflectionUtils;
-import net.minecraft.server.v1_16_R3.*;
-import net.minecraft.server.v1_16_R3.PlayerChunkMap.EntityTracker;
+import net.minecraft.server.v1_14_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_14_R1.CraftWorld;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.Field;
@@ -21,7 +20,7 @@ public class UntrackerTask extends BukkitRunnable {
 
     static {
         try {
-            trackerField = ReflectionUtils.getClassPrivateField(EntityTracker.class, "tracker");
+            trackerField = ReflectionUtils.getClassPrivateField(PlayerChunkMap.EntityTracker.class, "tracker");
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -46,8 +45,8 @@ public class UntrackerTask extends BukkitRunnable {
         ChunkProviderServer cps = ws.getChunkProvider();
 
         try {
-            for (EntityTracker et : cps.playerChunkMap.trackedEntities.values()) {
-                net.minecraft.server.v1_16_R3.Entity nmsEnt = (net.minecraft.server.v1_16_R3.Entity) trackerField.get(et);
+            for (PlayerChunkMap.EntityTracker et : cps.playerChunkMap.trackedEntities.values()) {
+                net.minecraft.server.v1_14_R1.Entity nmsEnt = (net.minecraft.server.v1_14_R1.Entity) trackerField.get(et);
                 if (nmsEnt instanceof EntityPlayer || nmsEnt instanceof EntityEnderDragon || nmsEnt instanceof EntityComplexPart
                         || nmsEnt instanceof EntityVillager || nmsEnt instanceof EntityCreeper) {
                     continue;
@@ -69,6 +68,7 @@ public class UntrackerTask extends BukkitRunnable {
                     }
                 }
                 if (remove) {
+                    //System.out.println("untracked: " + nmsEnt.getBukkitEntity().getType().name());
                     toRemove.add(nmsEnt.getId());
                 }
             }
@@ -79,6 +79,9 @@ public class UntrackerTask extends BukkitRunnable {
         for (int id : toRemove) {
             cps.playerChunkMap.trackedEntities.remove(id);
         }
+
+
+        //System.out.println("cache now contains " + UntrackedEntitiesCache.getInstance().getCache(worldName).size() + " entities");
     }
 
     public static boolean isRunning() {

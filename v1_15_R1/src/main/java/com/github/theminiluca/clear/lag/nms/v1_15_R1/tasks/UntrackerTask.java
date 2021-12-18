@@ -1,6 +1,5 @@
 package com.github.theminiluca.clear.lag.nms.v1_15_R1.tasks;
 
-import com.github.theminiluca.clear.lag.nms.v1_15_R1.entityTick.EntityTickManager;
 import com.github.theminiluca.clear.lag.util.ReflectionUtils;
 import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.Bukkit;
@@ -79,7 +78,6 @@ public class UntrackerTask extends BukkitRunnable {
 
         for (int id : toRemove) {
             cps.playerChunkMap.trackedEntities.remove(id);
-            EntityTickManager.getInstance().disableTicking(ws.entitiesById.get(id));
 
         }
 

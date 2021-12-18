@@ -2,7 +2,6 @@ package com.github.theminiluca.clear.lag.nms.v1_15_R1.tasks;
 
 
 import com.github.theminiluca.clear.lag.nms.v1_15_R1.NMSEntityTracker;
-import com.github.theminiluca.clear.lag.nms.v1_15_R1.entityTick.EntityTickManager;
 import net.minecraft.server.v1_15_R1.ChunkProviderServer;
 import net.minecraft.server.v1_15_R1.WorldServer;
 import org.bukkit.Bukkit;
@@ -46,7 +45,6 @@ public class CheckTask extends BukkitRunnable {
             }
         }
         NMSEntityTracker.trackEntities(cps, trackAgain);
-        EntityTickManager.getInstance().enableTicking(trackAgain);
 
     }
 
