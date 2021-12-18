@@ -17,7 +17,6 @@ public class Clearlag extends JavaPlugin implements Listener {
 
     public static Clearlag plugin;
     public String version;
-    public boolean latest;
 
     private BukkitTask untrackerTask;
     private BukkitTask checkTask;
@@ -51,12 +50,12 @@ public class Clearlag extends JavaPlugin implements Listener {
         }
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(this, this);
-        new UpdateChecker(this, 98441).getLastVersion(var -> {
+        new UpdateChecker(this, 98464).getLastVersion(var -> {
             if (this.getDescription().getVersion().equalsIgnoreCase(var)) {
-                logger.info(ChatColor.GREEN + "this is plugin latest version");
+                logger.info("this is plugin latest version");
             } else {
-                logger.warning(ChatColor.RED + "this is plugin old version! please update! ( new version : " + var + " )");
-                logger.warning(ChatColor.RED + "https://www.spigotmc.org/resources/clearlag.98441/");
+                logger.warning("this is plugin old version! please update! ( new version : " + var + " )");
+                logger.warning("https://www.spigotmc.org/resources/clearlag.98441/");
             }
         });
 
