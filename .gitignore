@@ -1,0 +1,24 @@
+.idea
+
+# ignore all .class files
+*.class
+
+# exclude lib.class from "*.class", meaning all lib.class are still tracked
+!lib.class
+
+# ignore all json files whose name begin with 'temp-'
+temp-*.json
+
+# only ignore the build.log file in current directory, not those in its subdirectories
+/build.log
+
+# specify a folder with slash in the end
+# ignore all files in any directory named temp
+temp/
+
+# ignore doc/notes.txt, but not doc/server/arch.txt
+bin/*.txt
+
+# ignore all .pdf files in the doc/ directory and any of its subdirectories
+# /** matches 0 or more directories
+doc/**/*.pdf
