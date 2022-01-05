@@ -1,6 +1,6 @@
 package com.github.theminiluca.clear.lag.nms.v1_14_R1;
 
-import com.github.theminiluca.clear.lag.util.ReflectionUtils;
+import com.github.theminiluca.clear.lag.plugin.api.util.ReflectionUtils;
 import net.minecraft.server.v1_14_R1.ChunkProviderServer;
 import net.minecraft.server.v1_14_R1.PlayerChunkMap;
 

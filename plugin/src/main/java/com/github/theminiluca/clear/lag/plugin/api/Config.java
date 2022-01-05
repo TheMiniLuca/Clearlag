@@ -160,6 +160,7 @@ public class Config {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        plugin.reloadConfig();
 
     }
 

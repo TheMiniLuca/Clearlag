@@ -1,6 +1,7 @@
 package com.github.theminiluca.clear.lag.nms.v1_18_R1.tasks;
 
 import com.github.theminiluca.clear.lag.nms.v1_18_R1.NMSEntityTracker;
+import com.github.theminiluca.clear.lag.plugin.api.Config;
 import net.minecraft.server.level.ChunkProviderServer;
 import net.minecraft.server.level.WorldServer;
 import org.bukkit.Bukkit;
@@ -13,7 +14,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+
+import static com.github.theminiluca.clear.lag.plugin.api.Config.getBoolean;
+import static com.github.theminiluca.clear.lag.plugin.api.Config.getList;
 
 public class CheckTask extends BukkitRunnable {
 
@@ -22,20 +27,29 @@ public class CheckTask extends BukkitRunnable {
         if (UntrackerTask.isRunning()) {
             return;
         }
-        for (World worldName : Bukkit.getWorlds()) {
-            checkWorld(worldName.getName());
+        if(getBoolean(Config.Enum.ENABLE_ON_ALL_WORLDS)) {
+            for(World world : Bukkit.getWorlds()) {
+                checkWorld(world.getName());
+            }
         }
-
+        else {
+            for(String worldName : getList(Config.Enum.WORLDS)) {
+                if(Bukkit.getWorld(worldName) == null) {
+                    continue;
+                }
+                checkWorld(worldName);
+            }
+        }
     }
 
     public void checkWorld(String worldName) {
-        WorldServer ws = ((CraftWorld) Bukkit.getWorld(worldName)).getHandle();
+        WorldServer ws = ((CraftWorld) Objects.requireNonNull(Bukkit.getWorld(worldName))).getHandle();
         ChunkProviderServer cps = ws.k();
 
         Set<net.minecraft.world.entity.Entity> trackAgain = new HashSet<>();
 
-        int d = 50;
-        for (Player player : Bukkit.getWorld(worldName).getPlayers()) {
+        int d = Config.getInt(Config.Enum.TRACKING_RANGE);
+        for (Player player : Objects.requireNonNull(Bukkit.getWorld(worldName)).getPlayers()) {
             for (Entity ent : player.getNearbyEntities(d, d, d)) {
                 net.minecraft.world.entity.Entity nms = ((CraftEntity) ent).getHandle();
                 if (cps.a.I.containsKey(nms.ae()) || !nms.valid) {

@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Clearlag:jar">
+    <output-path>$USER_HOME$/Desktop/PLUGIN TEST SERVER/v1_18_R1/plugins</output-path>
+    <root id="archive" name="Clearlag.jar">
+      <element id="module-output" name="v1_16_R4" />
+      <element id="module-output" name="api" />
+      <element id="module-output" name="plugin" />
+      <element id="module-output" name="v1_15_R1" />
+      <element id="module-output" name="v1_18_R1" />
+      <element id="module-output" name="v1_14_R1" />
+      <element id="module-output" name="v1_17_R1" />
+    </root>
+  </artifact>
+</component>

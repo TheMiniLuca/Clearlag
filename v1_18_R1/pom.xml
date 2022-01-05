@@ -20,14 +20,8 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.18-R0.1-SNAPSHOT</version>
+            <version>1.18.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.theminiluca.clear.lag</groupId>
-            <artifactId>api</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.github.theminiluca.clear.lag</groupId>
