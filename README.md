@@ -21,7 +21,7 @@ again if the player is near.
 tps를 매우 잡아먹습니다. 따라서 이 플러그인은 설정된 
 모든 틱을 추적 해제하고 플레이어가 근처에 있을 경우 다시 추적합니다.
 
-```
+``` YAML
 #Clearlag Plugin
 #Last Reload Date : 2022-01-04 22:59:19
 
