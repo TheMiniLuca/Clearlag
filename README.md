@@ -1,11 +1,12 @@
-The plugin completely resolves the entity lag of versions 1.14/1.15/1.16/1.17/1.18!
+The plugin completely resolves 
+the entity lag of versions 1.14/1.15/1.16/1.17/1.18!
 
 Has no method been able to solve entity lag so far?
 Use this plugin!
 
 이 플러그인은 버전 1.14/1.15/1.16/1.17/1.18의 엔티티 랙을 완전히 해결합니다!
 
-How does it works?
+####How does it works?
 Minecraft tracks a lot of entities, 
 even if they are outside the tracking range of the player,
  that's a normal behavior but is a tps killer for 1.14.4 to 1.18 
@@ -13,7 +14,7 @@ servers with more than 30 players. So what this plugin do is
 untrack those entities every configured ticks and track them 
 again if the player is near.
 
-어떻게 작동합니까?
+####어떻게 작동합니까?
 마인크래프트는 플레이어의 추적 범위를 벗어나더라도
  많은 실체를 추적하는데, 이는 정상적인 행동이지만 
 30명 이상의 플레이어를 보유한 1.14.4~1.18 서버의 경우 
