@@ -1,3 +1,7 @@
+# Clearlag
+
+
+
 The plugin completely resolves 
 the entity lag of versions 1.14/1.15/1.16/1.17/1.18!
 
@@ -86,3 +90,10 @@ worlds:
 
 version: 1.3.1
 ```
+
+
+Plugin statistics (플러그인 통계)
+https://bstats.org/plugin/bukkit/L-Clearlag/13638
+
+
+MiniLuca#7822
