@@ -1,6 +1,7 @@
 package com.github.theminiluca.clear.lag.nms.v1_17_R1.tasks;
 
 import com.github.theminiluca.clear.lag.nms.v1_17_R1.NMSEntityTracker;
+import com.github.theminiluca.clear.lag.nms.v1_17_R1.entityTick.EntityTickManager;
 import com.github.theminiluca.clear.lag.plugin.api.Config;
 import net.minecraft.server.level.ChunkProviderServer;
 import net.minecraft.server.level.WorldServer;
@@ -16,9 +17,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import static com.github.theminiluca.clear.lag.plugin.api.Config.getBoolean;
-import static com.github.theminiluca.clear.lag.plugin.api.Config.getList;
-
 public class CheckTask extends BukkitRunnable {
 
     @Override
@@ -26,14 +24,13 @@ public class CheckTask extends BukkitRunnable {
         if (UntrackerTask.isRunning()) {
             return;
         }
-        if(getBoolean(Config.Enum.ENABLE_ON_ALL_WORLDS)) {
-            for(World world : Bukkit.getWorlds()) {
+        if (Config.getInstance().getBoolean(Config.Enum.ENABLE_ON_ALL_WORLDS)) {
+            for (World world : Bukkit.getWorlds()) {
                 checkWorld(world.getName());
             }
-        }
-        else {
-            for(String worldName : getList(Config.Enum.WORLDS)) {
-                if(Bukkit.getWorld(worldName) == null) {
+        } else {
+            for (String worldName : Config.getInstance().getList(Config.Enum.WORLDS)) {
+                if (Bukkit.getWorld(worldName) == null) {
                     continue;
                 }
                 checkWorld(worldName);
@@ -48,7 +45,7 @@ public class CheckTask extends BukkitRunnable {
 
         Set<net.minecraft.world.entity.Entity> trackAgain = new HashSet<>();
 
-        int d = Config.getInt(Config.Enum.TRACKING_RANGE);
+        int d = Config.getInstance().getInt(Config.Enum.TRACKING_RANGE);
         for (Player player : Objects.requireNonNull(Bukkit.getWorld(worldName)).getPlayers()) {
             for (Entity ent : player.getNearbyEntities(d, d, d)) {
                 net.minecraft.world.entity.Entity nms = ((CraftEntity) ent).getHandle();
@@ -59,6 +56,8 @@ public class CheckTask extends BukkitRunnable {
             }
         }
         NMSEntityTracker.trackEntities(cps, trackAgain);
+        if (Config.getInstance().getBoolean(Config.Enum.DISABLE_TICK_FOR_UNTRACKED_ENTITIES))
+            EntityTickManager.getInstance().enableTicking(trackAgain);
     }
 
 

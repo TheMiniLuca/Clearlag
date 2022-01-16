@@ -17,9 +17,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import static com.github.theminiluca.clear.lag.plugin.api.Config.getBoolean;
-import static com.github.theminiluca.clear.lag.plugin.api.Config.getList;
-
 public class CheckTask extends BukkitRunnable {
 
     @Override
@@ -27,13 +24,13 @@ public class CheckTask extends BukkitRunnable {
         if (UntrackerTask.isRunning()) {
             return;
         }
-        if(getBoolean(Config.Enum.ENABLE_ON_ALL_WORLDS)) {
+        if(Config.getInstance().getBoolean(Config.Enum.ENABLE_ON_ALL_WORLDS)) {
             for(World world : Bukkit.getWorlds()) {
                 checkWorld(world.getName());
             }
         }
         else {
-            for(String worldName : getList(Config.Enum.WORLDS)) {
+            for(String worldName : Config.getInstance().getList(Config.Enum.WORLDS)) {
                 if(Bukkit.getWorld(worldName) == null) {
                     continue;
                 }
@@ -48,7 +45,7 @@ public class CheckTask extends BukkitRunnable {
 
         Set<net.minecraft.server.v1_15_R1.Entity> trackAgain = new HashSet<>();
 
-        int d = Config.getInt(Config.Enum.TRACKING_RANGE);
+        int d = Config.getInstance().getInt(Config.Enum.TRACKING_RANGE);
         for (Player player : Objects.requireNonNull(Bukkit.getWorld(worldName)).getPlayers()) {
             for (Entity ent : player.getNearbyEntities(d, d, d)) {
                 net.minecraft.server.v1_15_R1.Entity nms = ((CraftEntity) ent).getHandle();

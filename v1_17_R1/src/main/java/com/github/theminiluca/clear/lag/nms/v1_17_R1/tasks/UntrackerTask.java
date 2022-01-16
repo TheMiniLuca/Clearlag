@@ -1,6 +1,7 @@
 package com.github.theminiluca.clear.lag.nms.v1_17_R1.tasks;
 
 
+import com.github.theminiluca.clear.lag.nms.v1_17_R1.entityTick.EntityTickManager;
 import com.github.theminiluca.clear.lag.plugin.Clearlag;
 import com.github.theminiluca.clear.lag.plugin.api.Config;
 import com.github.theminiluca.clear.lag.plugin.api.Language;
@@ -10,11 +11,6 @@ import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.level.PlayerChunkMap;
 import net.minecraft.server.level.WorldServer;
 import net.minecraft.server.network.ServerPlayerConnection;
-import net.minecraft.world.entity.boss.EntityComplexPart;
-import net.minecraft.world.entity.boss.enderdragon.EntityEnderDragon;
-import net.minecraft.world.entity.decoration.EntityArmorStand;
-import net.minecraft.world.entity.monster.EntityCreeper;
-import net.minecraft.world.entity.npc.EntityVillager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
@@ -29,8 +25,6 @@ import java.util.Set;
 
 import static com.github.theminiluca.clear.lag.plugin.Clearlag.logger;
 import static com.github.theminiluca.clear.lag.plugin.Clearlag.removed;
-import static com.github.theminiluca.clear.lag.plugin.api.Config.*;
-import static com.github.theminiluca.clear.lag.plugin.api.Config.getList;
 
 public class UntrackerTask extends BukkitRunnable {
 
@@ -49,16 +43,16 @@ public class UntrackerTask extends BukkitRunnable {
     @SuppressWarnings({"resource"})
     @Override
     public void run() {
-        if (((CraftServer) Bukkit.getServer()).getServer().recentTps[0] > getDouble(Config.Enum.TPS_LIMIT)) {
+        if (((CraftServer) Bukkit.getServer()).getServer().recentTps[0] > Config.getInstance().getDouble(Config.Enum.TPS_LIMIT)) {
             return;
         }
         running = true;
-        if (getBoolean(Config.Enum.ENABLE_ON_ALL_WORLDS)) {
+        if (Config.getInstance().getBoolean(Config.Enum.ENABLE_ON_ALL_WORLDS)) {
             for (World world : Bukkit.getWorlds()) {
                 untrackProcess(world.getName());
             }
         } else {
-            for (String worldName : getList(Config.Enum.WORLDS)) {
+            for (String worldName : Config.getInstance().getList(Config.Enum.WORLDS)) {
                 untrackProcess(worldName);
             }
         }
@@ -83,10 +77,10 @@ public class UntrackerTask extends BukkitRunnable {
         try {
             for (PlayerChunkMap.EntityTracker et : cps.a.G.values()) {
                 net.minecraft.world.entity.Entity nmsEnt = (net.minecraft.world.entity.Entity) trackerField.get(et);
-                if (nmsEnt instanceof EntityPlayer || isEnableEntity(nmsEnt.getBukkitEntity().getType().name())) {
+                if (nmsEnt instanceof EntityPlayer || Config.getInstance().isEnableEntity(nmsEnt.getBukkitEntity().getType().name())) {
                     continue;
                 }
-                if (getBoolean(Config.Enum.IGNORE_ENTITY_NAME)) {
+                if (Config.getInstance().getBoolean(Config.Enum.IGNORE_ENTITY_NAME)) {
                     if (nmsEnt.getCustomName() != null) {
                         continue;
                     }
@@ -115,9 +109,10 @@ public class UntrackerTask extends BukkitRunnable {
 
         for (int id : toRemove) {
             cps.a.G.remove(id);
+            EntityTickManager.getInstance().disableTicking(ws.getEntity(id));
         }
 
-        if (Config.getBoolean(Config.Enum.LOG_TO_CONSOLE)) {
+        if (Config.getInstance().getBoolean(Config.Enum.LOG_TO_CONSOLE)) {
             if (removed > 0) {
                 logger.info(Language.getUntrackingLog(removed, worldName));
             }

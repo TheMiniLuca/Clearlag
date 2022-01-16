@@ -1,5 +1,6 @@
 package com.github.theminiluca.clear.lag.nms.v1_18_R1.tasks;
 
+import com.github.theminiluca.clear.lag.nms.v1_18_R1.entityTick.EntityTickManager;
 import com.github.theminiluca.clear.lag.plugin.Clearlag;
 import com.github.theminiluca.clear.lag.plugin.api.Config;
 import com.github.theminiluca.clear.lag.plugin.api.Language;
@@ -48,16 +49,16 @@ public class UntrackerTask extends BukkitRunnable {
     @SuppressWarnings({"resource"})
     @Override
     public void run() {
-        if (((CraftServer) Bukkit.getServer()).getServer().recentTps[0] > getDouble(Config.Enum.TPS_LIMIT)) {
+        if (((CraftServer) Bukkit.getServer()).getServer().recentTps[0] > Config.getInstance().getDouble(Config.Enum.TPS_LIMIT)) {
             return;
         }
         running = true;
-        if (getBoolean(Config.Enum.ENABLE_ON_ALL_WORLDS)) {
+        if (Config.getInstance().getBoolean(Config.Enum.ENABLE_ON_ALL_WORLDS)) {
             for (World world : Bukkit.getWorlds()) {
                 untrackProcess(world.getName());
             }
         } else {
-            for (String worldName : getList(Config.Enum.WORLDS)) {
+            for (String worldName : Config.getInstance().getList(Config.Enum.WORLDS)) {
                 untrackProcess(worldName);
             }
         }
@@ -83,10 +84,10 @@ public class UntrackerTask extends BukkitRunnable {
         try {
             for (PlayerChunkMap.EntityTracker et : cps.a.I.values()) {
                 net.minecraft.world.entity.Entity nmsEnt = (net.minecraft.world.entity.Entity) trackerField.get(et);
-                if (nmsEnt instanceof EntityPlayer || isEnableEntity(nmsEnt.getBukkitEntity().getType().name())) {
+                if (nmsEnt instanceof EntityPlayer || Config.getInstance().isEnableEntity(nmsEnt.getBukkitEntity().getType().name())) {
                     continue;
                 }
-                if (getBoolean(Config.Enum.IGNORE_ENTITY_NAME)) {
+                if (Config.getInstance().getBoolean(Config.Enum.IGNORE_ENTITY_NAME)) {
                     if (nmsEnt.Z() != null) {
                         continue;
                     }
@@ -115,9 +116,10 @@ public class UntrackerTask extends BukkitRunnable {
 
         for (int id : toRemove) {
             cps.a.I.remove(id);
+            EntityTickManager.getInstance().disableTicking(ws.a(id));
         }
 
-        if (Config.getBoolean(Config.Enum.LOG_TO_CONSOLE)) {
+        if (Config.getInstance().getBoolean(Config.Enum.LOG_TO_CONSOLE)) {
             if (removed > 0) {
                 logger.info(Language.getUntrackingLog(removed, worldName));
             }

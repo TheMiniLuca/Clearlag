@@ -59,8 +59,8 @@ public class Clearlag extends JavaPlugin implements Listener {
             if (NMS.class.isAssignableFrom(clazz)) {
                 NMS nmsHandler = (NMS) clazz.getConstructor().newInstance();
                 nms = nmsHandler;
-                untrackerTask = nmsHandler.startUntrackerTask(this, Config.getInt(Config.Enum.UNTRACKING_TICK));
-                checkTask = nmsHandler.startUCheckTask(this, Config.getInt(Config.Enum.UNTRACKING_TICK));
+                untrackerTask = nmsHandler.startUntrackerTask(this, Config.getInstance().getInt(Config.Enum.UNTRACKING_TICK));
+                checkTask = nmsHandler.startUCheckTask(this, Config.getInstance().getInt(Config.Enum.UNTRACKING_TICK));
             }
         } catch (final Exception e) {
             getLogger().warning("      / \\");

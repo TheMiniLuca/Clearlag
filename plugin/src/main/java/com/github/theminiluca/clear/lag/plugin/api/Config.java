@@ -4,9 +4,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
-import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -55,6 +55,17 @@ public class Config {
             else
                 sb.append("language: ").append(config.getString("language")).append("\n");
              */
+            sb.append("# Should we disable tick operations of un-tracked entities?\n" +
+                    "# Note 1: this option only works for +1.16.1 servers\n" +
+                    "# Note 2: this option is experimental and could contain errors\n" +
+                    "# - Default value(s): true\n");
+            if (!config.isSet("disable-tick-for-untracked-entities"))
+                sb.append("disable-tick-for-untracked-entities: true\n");
+            else {
+                sb.append("disable-tick-for-untracked-entities: ").append(config.getBoolean("disable-tick-for-untracked-entities")).append("\n");
+            }
+            sb.append(line);
+            sb.append(line);
             sb.append("# How low should the server's TPS be before we do anything?\n" +
                     "# - Note: Setting this value above 20 will skip this check, allowing the tasks to run 24/7.\n" +
                     "# - Default value(s): 19.5\n"
@@ -165,51 +176,76 @@ public class Config {
     }
 
     public enum Enum {
-        LOG_TO_CONSOLE("log-to-console"),
-        LANGUAGE("language"),
-        TPS_LIMIT("tps-limit"),
-        IGNORE_ENTITY_LIST("ignore-entity-list"),
-        IGNORE_ENTITY_NAME("ignore-entity-name"),
-        TRACKING_RANGE("tracking-range"),
-        UNTRACKING_TICK("untrack-ticks"),
-        ENABLE_ON_ALL_WORLDS("enable-on-all-worlds"),
-        WORLDS("worlds"),
+        LOG_TO_CONSOLE("log-to-console", Boolean.class),
+        LANGUAGE("language", String.class),
+        TPS_LIMIT("tps-limit", Double.class),
+        IGNORE_ENTITY_LIST("ignore-entity-list", ArrayList.class),
+        IGNORE_ENTITY_NAME("ignore-entity-name", Boolean.class),
+        TRACKING_RANGE("tracking-range", Integer.class),
+        UNTRACKING_TICK("untrack-ticks", Integer.class),
+        ENABLE_ON_ALL_WORLDS("enable-on-all-worlds", ArrayList.class),
+        WORLDS("worlds", ArrayList.class),
+        DISABLE_TICK_FOR_UNTRACKED_ENTITIES("disable-tick-for-untracked-entities", Boolean.class),
         ;
-        private final String value;
+        private final String path;
+        private final Object object;
 
-        Enum(String value) {
-            this.value = value;
+        Enum(String path, Object object) {
+            this.path = path;
+            this.object = object;
         }
 
-        public String value() {
-            return value;
+        public String getPath() {
+            return path;
+        }
+
+        public Object getObject() {
+            return object;
         }
     }
 
-    public static boolean getBoolean(Enum e) {
-        return plugin.getConfig().getBoolean(e.value());
+
+    public boolean getBoolean(Enum e) {
+        if (e.getObject().equals(Boolean.class))
+            return plugin.getConfig().getBoolean(e.getPath());
+        else throw new ClassCastException();
     }
 
-    public static double getDouble(Enum e) {
-        return plugin.getConfig().getDouble(e.value());
+    public double getDouble(Enum e) {
+        if (e.getObject().equals(Double.class))
+            return plugin.getConfig().getDouble(e.getPath());
+        else throw new ClassCastException();
     }
 
-    public static int getInt(Enum e) {
-        return plugin.getConfig().getInt(e.value());
+    public int getInt(Enum e) {
+        if (e.getObject().equals(Integer.class))
+            return plugin.getConfig().getInt(e.getPath());
+        else throw new ClassCastException();
     }
 
-    public static List<String> getList(Enum e) {
-        return plugin.getConfig().getStringList(e.value());
+    public List<String> getList(Enum e) {
+        if (e.getObject().equals(ArrayList.class))
+            return plugin.getConfig().getStringList(e.getPath());
+        else throw new ClassCastException();
     }
 
-    public static String getEntityType(String name) {
+    public String getEntityType(String name) {
         return nms.Entities(false).stream().filter(s -> {
             assert s != null;
             return s.equalsIgnoreCase(name);
         }).findFirst().orElseThrow(IllegalArgumentException::new);
     }
 
-    public static boolean isEnableEntity(String name) {
+    public boolean isEnableEntity(String name) {
         return getList(Enum.IGNORE_ENTITY_LIST).stream().anyMatch(s -> s.equalsIgnoreCase(getEntityType(name)));
+    }
+
+    private static Config instance;
+
+    public static Config getInstance() {
+        if (instance == null) {
+            instance = new Config();
+        }
+        return instance;
     }
 }

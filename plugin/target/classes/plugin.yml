@@ -1,6 +1,6 @@
-name: Clearlag
+name: L-Clearlag
 main: com.github.theminiluca.clear.lag.plugin.Clearlag
-version: 1.3.1
+version: 1.4.0
 api-version: 1.13
 authors:
   - TheMiniLuca
