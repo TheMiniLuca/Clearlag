@@ -68,10 +68,10 @@ public class Config {
             sb.append(line);
             sb.append("# How low should the server's TPS be before we do anything?\n" +
                     "# - Note: Setting this value above 20 will skip this check, allowing the tasks to run 24/7.\n" +
-                    "# - Default value(s): 19.5\n"
+                    "# - Default value(s): 20.0\n"
             );
             if (!config.isSet("tps-limit"))
-                sb.append("tps-limit: 19.5\n");
+                sb.append("tps-limit: 20.0\n");
             else {
                 sb.append("tps-limit: ").append(config.getDouble("tps-limit")).append("\n");
             }
@@ -206,27 +206,19 @@ public class Config {
 
 
     public boolean getBoolean(Enum e) {
-        if (e.getObject().equals(Boolean.class))
-            return plugin.getConfig().getBoolean(e.getPath());
-        else throw new ClassCastException();
+        return plugin.getConfig().getBoolean(e.getPath());
     }
 
     public double getDouble(Enum e) {
-        if (e.getObject().equals(Double.class))
-            return plugin.getConfig().getDouble(e.getPath());
-        else throw new ClassCastException();
+        return plugin.getConfig().getDouble(e.getPath());
     }
 
     public int getInt(Enum e) {
-        if (e.getObject().equals(Integer.class))
-            return plugin.getConfig().getInt(e.getPath());
-        else throw new ClassCastException();
+        return plugin.getConfig().getInt(e.getPath());
     }
 
     public List<String> getList(Enum e) {
-        if (e.getObject().equals(ArrayList.class))
-            return plugin.getConfig().getStringList(e.getPath());
-        else throw new ClassCastException();
+        return plugin.getConfig().getStringList(e.getPath());
     }
 
     public String getEntityType(String name) {
