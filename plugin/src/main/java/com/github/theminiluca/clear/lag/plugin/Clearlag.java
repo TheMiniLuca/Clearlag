@@ -1,9 +1,7 @@
 package com.github.theminiluca.clear.lag.plugin;
 
-import com.github.theminiluca.clear.lag.plugin.api.Config;
-import com.github.theminiluca.clear.lag.plugin.api.Language;
-import com.github.theminiluca.clear.lag.plugin.api.NMS;
-import com.github.theminiluca.clear.lag.plugin.api.UpdateChecker;
+import com.github.theminiluca.clear.lag.plugin.api.*;
+import io.netty.handler.codec.redis.LastBulkStringRedisContent;
 import net.minecraft.server.v1_13_R2.MinecraftServer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -38,7 +36,6 @@ public class Clearlag extends JavaPlugin implements Listener {
     public static int removed = 0;
 
     public static Metrics metrics;
-    public static String language;
 
     @Override
     public void onEnable() {
@@ -46,11 +43,8 @@ public class Clearlag extends JavaPlugin implements Listener {
         saveConfig();
         Config.setup(this);
         plugin = this;
-        language = System.getProperty("user.language");
         metrics = new Metrics(this, 13638);
-        metrics.addCustomChart(new Metrics.SingleLineChart("removed", () -> {
-            return removed;
-        }));
+        metrics.addCustomChart(new Metrics.SingleLineChart("removed", () -> removed));
         String packageName = this.getServer().getClass().getPackage().getName();
         AtomicReference<String> version = new AtomicReference<>(packageName.substring(packageName.lastIndexOf('.') + 1));
         plugin = this;
@@ -61,6 +55,23 @@ public class Clearlag extends JavaPlugin implements Listener {
                 nms = nmsHandler;
                 untrackerTask = nmsHandler.startUntrackerTask(this, Config.getInstance().getInt(Config.Enum.UNTRACKING_TICK));
                 checkTask = nmsHandler.startUCheckTask(this, Config.getInstance().getInt(Config.Enum.UNTRACKING_TICK));
+                try {
+                    if (LatestNMS.class.isAssignableFrom(clazz)) {
+                        LatestNMS latestNMS = (LatestNMS) clazz.getConstructor().newInstance();
+                        latestNMS.startTasks(plugin, Config.getInstance().getInt(Config.Enum.UNTRACKING_TICK));
+                    } else {
+                        throw new Exception("THIS VERSION IS NOT SUPPORT");
+                    }
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                    getLogger().warning("      / \\");
+                    getLogger().warning("     /   \\");
+                    getLogger().warning("    /  |  \\");
+                    getLogger().warning("   /   |   \\      Anti-Villager-Lag IS NOT WORKING!");
+                    getLogger().warning("  /         \\     REASON : " + e.getMessage());
+                    getLogger().warning(" /     o     \\");
+                    getLogger().warning("/_____________\\");
+                }
             }
         } catch (final Exception e) {
             getLogger().warning("      / \\");
@@ -75,7 +86,9 @@ public class Clearlag extends JavaPlugin implements Listener {
         }
         getServer().getPluginManager().registerEvents(this, this);
         new UpdateChecker(this, 98464).getLastVersion(var -> {
-            if (this.getDescription().getVersion().equalsIgnoreCase(var)) {
+            String v = this.getDescription().getVersion();
+            if (v.contains("Beta")) return;
+            if (v.equalsIgnoreCase(var)) {
                 logger.info("this is plugin latest version");
             } else {
                 logger.warning("this is plugin old version! please update! ( new version : " + var + " )");
@@ -126,9 +139,13 @@ public class Clearlag extends JavaPlugin implements Listener {
                 if ("removed".equalsIgnoreCase(args[0])) {
                     sender.sendMessage(ChatColor.GREEN + "✔ While this server was running, " + ChatColor.UNDERLINE + "" + removed + ChatColor.GREEN + " canceled tracking of entities!");
                 }
+                if ("version".equalsIgnoreCase(args[0])) {
+                    sender.sendMessage(ChatColor.GREEN + "✔ version : " + this.getDescription().getVersion());
+                }
             } else {
                 sender.sendMessage("/clearlag reload - config reload");
                 sender.sendMessage("/clearlag removed - View the number of entities whose tracking has been canceled so far.");
+                sender.sendMessage("/clearlag version - View the version of the plugin.");
             }
         }
         return false;

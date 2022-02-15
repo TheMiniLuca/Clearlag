@@ -153,6 +153,17 @@ public class Config {
             }
             sb.append(line);
             sb.append(line);
+            sb.append("# alpha version"
+                    + "# https://www.spigotmc.org/resources/villager-optimiser-1-14-2-1-16-5.68517/"
+                    + "# - Default value(s): 600\n");
+
+            if (!config.isSet("ticks-per-allow-search")) {
+                sb.append("ticks-per-allow-search: 600\n");
+            } else {
+                sb.append("ticks-per-allow-search: ").append(config.getInt("ticks-per-allow-search")).append("\n");
+            }
+            sb.append(line);
+            sb.append(line);
             sb.append(line);
             sb.append("version: ").append(plugin.getDescription().getVersion()).append("\n");
 
@@ -186,6 +197,7 @@ public class Config {
         ENABLE_ON_ALL_WORLDS("enable-on-all-worlds", ArrayList.class),
         WORLDS("worlds", ArrayList.class),
         DISABLE_TICK_FOR_UNTRACKED_ENTITIES("disable-tick-for-untracked-entities", Boolean.class),
+        TICKS_PER_ALLOW_SEARCH("ticks-per-allow-search", Integer.class),
         ;
         private final String path;
         private final Object object;

@@ -3,6 +3,8 @@ package com.github.theminiluca.clear.lag.nms.v1_16_R3;
 import com.github.theminiluca.clear.lag.plugin.api.util.ReflectionUtils;
 import net.minecraft.server.v1_16_R3.ChunkProviderServer;
 import net.minecraft.server.v1_16_R3.PlayerChunkMap;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftVillager;
+import org.bukkit.entity.Entity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -23,7 +25,7 @@ public final class NMSEntityTracker {
 
     private NMSEntityTracker() {
     }
-
+    
     public static void trackEntities(ChunkProviderServer cps, Set<net.minecraft.server.v1_16_R3.Entity> trackList) {
         try {
             for (net.minecraft.server.v1_16_R3.Entity entity : trackList) {
