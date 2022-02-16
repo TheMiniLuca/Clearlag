@@ -1,5 +1,6 @@
 package com.github.theminiluca.clear.lag.nms.v1_18_R1.tasks.villager.utils;
 
+import net.minecraft.world.entity.EntityLiving;
 import org.bukkit.Location;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.memory.MemoryKey;
@@ -30,15 +31,11 @@ public class ActivityUtils {
 
     static {
         try {
-
-            VILLAGER_GET_HANDLE_METHOD =  Class.forName("org.bukkit.craftbukkit.v1_18_R1.entity.CraftVillager").getMethod("getHandle");
-            VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD = Class.forName("net.minecraft.world.entity.EntityLiving").getMethod("getBehaviorController");
-            BEHAVIOUR_CONTROLLER_GET_SCHEDULE_METHOD = Class.forName("net.minecraft.world.entity.ai.BehaviorController").getMethod("getSchedule");
+            VILLAGER_GET_HANDLE_METHOD = Class.forName("org.bukkit.craftbukkit.v1_18_R1.entity.CraftVillager").getMethod("getHandle");
+            VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD = Class.forName("net.minecraft.world.entity.EntityLiving").getMethod("dt");
+            BEHAVIOUR_CONTROLLER_GET_SCHEDULE_METHOD = Class.forName("net.minecraft.world.entity.ai.BehaviorController").getMethod("b");
             CURRENT_ACTIVITY_METHOD = Class.forName("net.minecraft.world.entity.schedule.Schedule").getMethod("a", int.class);
-            SET_SCHEDULE_METHOD = Class.forName("net.minecraft.world.entity.ai.BehaviorController").getMethod("setSchedule",
-                    Class.forName("net.minecraft.world.entity.schedule.Schedule"));
-
-
+            SET_SCHEDULE_METHOD = Class.forName("net.minecraft.world.entity.ai.BehaviorController").getMethod("a", Class.forName("net.minecraft.world.entity.schedule.Schedule"));
 
 
             ACTIVITIES_FIELD = Class.forName("net.minecraft.world.entity.ai.BehaviorController").getDeclaredField("j");
@@ -64,7 +61,7 @@ public class ActivityUtils {
             ((Set) ACTIVITIES_FIELD.get(VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD.invoke(VILLAGER_GET_HANDLE_METHOD.invoke(villager)))).add(ACTIVITY_CORE);
             Object currentSchedule = BEHAVIOUR_CONTROLLER_GET_SCHEDULE_METHOD.invoke(VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD.invoke(VILLAGER_GET_HANDLE_METHOD.invoke(villager)));
             Object currentActivity;
-            if(currentSchedule == null) {
+            if (currentSchedule == null) {
                 currentActivity = ACTIVITY_IDLE;
             } else {
                 currentActivity = CURRENT_ACTIVITY_METHOD.invoke(currentSchedule, (int) villager.getWorld().getTime());
@@ -85,7 +82,7 @@ public class ActivityUtils {
 
     public static void setScheduleNormal(Villager villager) {
         try {
-            SET_SCHEDULE_METHOD.invoke(VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD.invoke(VILLAGER_GET_HANDLE_METHOD.invoke(villager)), villager.isAdult() ? (villager.getProfession() == Villager.Profession.NITWIT ? SCHEDULE_SIMPLE : SCHEDULE_VILLAGER_DEFAULT ) : SCHEDULE_VILLAGER_BABY);
+            SET_SCHEDULE_METHOD.invoke(VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD.invoke(VILLAGER_GET_HANDLE_METHOD.invoke(villager)), villager.isAdult() ? (villager.getProfession() == Villager.Profession.NITWIT ? SCHEDULE_SIMPLE : SCHEDULE_VILLAGER_DEFAULT) : SCHEDULE_VILLAGER_BABY);
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
@@ -102,12 +99,13 @@ public class ActivityUtils {
     public static boolean badCurrentActivity(Villager villager) {
         try {
             Object currentSchedule = BEHAVIOUR_CONTROLLER_GET_SCHEDULE_METHOD.invoke(VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD.invoke(VILLAGER_GET_HANDLE_METHOD.invoke(villager)));
-            if(currentSchedule == null) {
+            if (currentSchedule == null) {
                 return false;
             }
             Object currentActivity = CURRENT_ACTIVITY_METHOD.invoke(currentSchedule, (int) villager.getWorld().getTime());
             return badActivity(currentActivity, villager);
-        } catch (IllegalAccessException | InvocationTargetException ignored) {}
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+        }
 
         return false;
     }
@@ -117,19 +115,20 @@ public class ActivityUtils {
         try {
             Object currentActivity = CURRENT_ACTIVITY_METHOD.invoke(wouldBeSchedule, (int) villager.getWorld().getTime());
             return badActivity(currentActivity, villager);
-        } catch (IllegalAccessException | InvocationTargetException ignored) {}
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+        }
 
         return false;
     }
 
     private static boolean badActivity(Object activity, Villager villager) {
-        if(activity == ACTIVITY_REST) {
+        if (activity == ACTIVITY_REST) {
             return villager.getMemory(MemoryKey.HOME) == null || isPlaceholderMemory(villager, MemoryKey.HOME);
         }
-        if(activity == ACTIVITY_WORK) {
+        if (activity == ACTIVITY_WORK) {
             return (villager.getMemory(MemoryKey.JOB_SITE) == null || isPlaceholderMemory(villager, MemoryKey.JOB_SITE));
         }
-        if(activity == ACTIVITY_MEET) {
+        if (activity == ACTIVITY_MEET) {
             return villager.getMemory(MemoryKey.MEETING_POINT) == null || isPlaceholderMemory(villager, MemoryKey.MEETING_POINT);
         }
 
@@ -137,13 +136,13 @@ public class ActivityUtils {
     }
 
     public static void replaceBadMemories(Villager villager) {
-        if(villager.getMemory(MemoryKey.HOME) == null) {
+        if (villager.getMemory(MemoryKey.HOME) == null) {
             villager.setMemory(MemoryKey.HOME, new Location(villager.getWorld(), villager.getLocation().getBlockX(), -10000, villager.getLocation().getBlockZ()));
         }
-        if(villager.getMemory(MemoryKey.JOB_SITE) == null) {
+        if (villager.getMemory(MemoryKey.JOB_SITE) == null) {
             villager.setMemory(MemoryKey.JOB_SITE, new Location(villager.getWorld(), villager.getLocation().getBlockX(), -10000, villager.getLocation().getBlockZ()));
         }
-        if(villager.getMemory(MemoryKey.MEETING_POINT) == null) {
+        if (villager.getMemory(MemoryKey.MEETING_POINT) == null) {
             villager.setMemory(MemoryKey.MEETING_POINT, new Location(villager.getWorld(), villager.getLocation().getBlockX(), -10000, villager.getLocation().getBlockZ()));
         }
     }
@@ -155,20 +154,20 @@ public class ActivityUtils {
 
     public static void clearPlaceholderMemories(Villager villager) {
 
-        if(villager.getMemory(MemoryKey.HOME) != null && isPlaceholderMemory(villager, MemoryKey.HOME)) {
+        if (villager.getMemory(MemoryKey.HOME) != null && isPlaceholderMemory(villager, MemoryKey.HOME)) {
             villager.setMemory(MemoryKey.HOME, null);
         }
-        if(villager.getMemory(MemoryKey.JOB_SITE) != null && isPlaceholderMemory(villager, MemoryKey.JOB_SITE)) {
+        if (villager.getMemory(MemoryKey.JOB_SITE) != null && isPlaceholderMemory(villager, MemoryKey.JOB_SITE)) {
             villager.setMemory(MemoryKey.JOB_SITE, null);
         }
-        if(villager.getMemory(MemoryKey.MEETING_POINT) != null && isPlaceholderMemory(villager, MemoryKey.MEETING_POINT)) {
+        if (villager.getMemory(MemoryKey.MEETING_POINT) != null && isPlaceholderMemory(villager, MemoryKey.MEETING_POINT)) {
             villager.setMemory(MemoryKey.MEETING_POINT, null);
         }
     }
 
     public static boolean isScheduleNormal(Villager villager) {
         try {
-            return BEHAVIOUR_CONTROLLER_GET_SCHEDULE_METHOD.invoke(VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD.invoke(VILLAGER_GET_HANDLE_METHOD.invoke(villager))) == (villager.isAdult() ? (villager.getProfession() == Villager.Profession.NITWIT ? SCHEDULE_SIMPLE : SCHEDULE_VILLAGER_DEFAULT ) : SCHEDULE_VILLAGER_BABY );
+            return BEHAVIOUR_CONTROLLER_GET_SCHEDULE_METHOD.invoke(VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD.invoke(VILLAGER_GET_HANDLE_METHOD.invoke(villager))) == (villager.isAdult() ? (villager.getProfession() == Villager.Profession.NITWIT ? SCHEDULE_SIMPLE : SCHEDULE_VILLAGER_DEFAULT) : SCHEDULE_VILLAGER_BABY);
         } catch (IllegalAccessException | InvocationTargetException e) {
             return false;
         }

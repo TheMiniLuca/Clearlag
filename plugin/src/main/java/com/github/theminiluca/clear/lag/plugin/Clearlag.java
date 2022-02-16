@@ -31,7 +31,7 @@ public class Clearlag extends JavaPlugin implements Listener {
     private static BukkitTask checkTask;
     public static NMS nms;
 
-    public static final Logger logger = Logger.getLogger("Clearlag");
+    public static final Logger logger = Logger.getLogger("L-Clearlag");
 
     public static int removed = 0;
 
@@ -87,6 +87,10 @@ public class Clearlag extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
         new UpdateChecker(this, 98464).getLastVersion(var -> {
             String v = this.getDescription().getVersion();
+            if (!v.contains("Beta"))
+                logger.info(ChatColor.GREEN + "[L-CLEARLAG] The plugin is operating on that server!");
+            else
+                logger.info(ChatColor.DARK_RED + "[L-CLEARLAG] The plugin is operating on that server! BETA VERSION!");
             if (v.contains("Beta")) return;
             if (v.equalsIgnoreCase(var)) {
                 logger.info("this is plugin latest version");
@@ -116,9 +120,15 @@ public class Clearlag extends JavaPlugin implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        String version = this.getDescription().getVersion();
         if (player.isOp() || player.getUniqueId().toString().equalsIgnoreCase("f47b3f97-4891-43e7-a5d3-5c3b98c2b3f7")) {
-            player.sendMessage(ChatColor.GREEN + "[CLEARLAG] The plugin is operating on that server!");
-            if (!this.getDescription().getVersion().equalsIgnoreCase(this.version)) {
+            if (!version.contains("Beta"))
+                player.sendMessage(ChatColor.GREEN + "[L-CLEARLAG] The plugin is operating on that server!");
+            else {
+                player.sendMessage(ChatColor.DARK_RED + "[L-CLEARLAG] The plugin is operating on that server! BETA VERSION!");
+                return;
+            }
+            if (!version.equalsIgnoreCase(this.version)) {
                 player.sendMessage(ChatColor.RED + "this is plugin old version! please update! ( new version : " + this.version + " )");
                 player.sendMessage(ChatColor.RED + "https://www.spigotmc.org/resources/clearlag.98464/");
             }

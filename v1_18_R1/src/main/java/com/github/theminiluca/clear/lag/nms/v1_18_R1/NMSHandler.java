@@ -37,15 +37,15 @@ public class NMSHandler implements LatestNMS {
         return al;
     }
 
-    private BukkitTask task;
+    private static BukkitTask task;
 
     @Override
     public void startTasks(Plugin plugin, int tick) {
-        if (this.task != null) {
-            this.task.cancel();
+        if (task != null) {
+            task.cancel();
+            return;
         }
-        this.task = new MainTask(plugin).runTaskTimer(plugin, 0L, tick);
-        this.task = Bukkit.getScheduler().runTaskTimer(plugin, new MainTask(plugin), 0L,
-                tick);
+        Bukkit.getScheduler().runTaskTimer(plugin, new MainTask(plugin), 0L,
+                 tick);
     }
 }

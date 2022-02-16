@@ -7,7 +7,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Villager;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class RemoveActivityTask extends BukkitRunnable {
+public class RemoveActivityTask implements Runnable {
     @Override
     public void run() {
         for(World world : Bukkit.getWorlds()) {

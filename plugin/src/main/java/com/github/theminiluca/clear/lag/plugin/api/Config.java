@@ -153,8 +153,8 @@ public class Config {
             }
             sb.append(line);
             sb.append(line);
-            sb.append("# alpha version"
-                    + "# https://www.spigotmc.org/resources/villager-optimiser-1-14-2-1-16-5.68517/"
+            sb.append("# alpha version\n"
+                    + "# https://www.spigotmc.org/resources/villager-optimiser-1-14-2-1-16-5.68517/\n"
                     + "# - Default value(s): 600\n");
 
             if (!config.isSet("ticks-per-allow-search")) {

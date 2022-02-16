@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class MainTask extends BukkitRunnable {
+public class MainTask implements Runnable {
     private final NormalActivityTask activityTask;
     private final RemoveActivityTask removeTask;
     private final Plugin plugin;
@@ -20,6 +20,6 @@ public class MainTask extends BukkitRunnable {
     @Override
     public void run() {
         this.activityTask.run();
-        this.removeTask.runTaskLater(plugin, 1);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this.removeTask, 1);
     }
 }
