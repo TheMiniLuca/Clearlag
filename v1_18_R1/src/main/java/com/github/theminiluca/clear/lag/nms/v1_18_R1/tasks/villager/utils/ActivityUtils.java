@@ -1,6 +1,10 @@
 package com.github.theminiluca.clear.lag.nms.v1_18_R1.tasks.villager.utils;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.entity.ai.BehaviorController;
+import net.minecraft.world.entity.schedule.Activity;
 import org.bukkit.Location;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.memory.MemoryKey;
@@ -8,6 +12,7 @@ import org.bukkit.entity.memory.MemoryKey;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.Set;
 
 public class ActivityUtils {
@@ -37,7 +42,6 @@ public class ActivityUtils {
             CURRENT_ACTIVITY_METHOD = Class.forName("net.minecraft.world.entity.schedule.Schedule").getMethod("a", int.class);
             SET_SCHEDULE_METHOD = Class.forName("net.minecraft.world.entity.ai.BehaviorController").getMethod("a", Class.forName("net.minecraft.world.entity.schedule.Schedule"));
 
-
             ACTIVITIES_FIELD = Class.forName("net.minecraft.world.entity.ai.BehaviorController").getDeclaredField("j");
             ACTIVITIES_FIELD.setAccessible(true);
 
@@ -57,8 +61,9 @@ public class ActivityUtils {
 
     public static void setActivitiesNormal(Villager villager) {
         try {
-            ((Set) ACTIVITIES_FIELD.get(VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD.invoke(VILLAGER_GET_HANDLE_METHOD.invoke(villager)))).clear();
-            ((Set) ACTIVITIES_FIELD.get(VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD.invoke(VILLAGER_GET_HANDLE_METHOD.invoke(villager)))).add(ACTIVITY_CORE);
+            Set set = Sets.newHashSet(ACTIVITIES_FIELD.get(VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD.invoke(VILLAGER_GET_HANDLE_METHOD.invoke(villager))));
+            set.clear();
+            set.add(ACTIVITY_CORE);
             Object currentSchedule = BEHAVIOUR_CONTROLLER_GET_SCHEDULE_METHOD.invoke(VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD.invoke(VILLAGER_GET_HANDLE_METHOD.invoke(villager)));
             Object currentActivity;
             if (currentSchedule == null) {
@@ -66,7 +71,7 @@ public class ActivityUtils {
             } else {
                 currentActivity = CURRENT_ACTIVITY_METHOD.invoke(currentSchedule, (int) villager.getWorld().getTime());
             }
-            ((Set) ACTIVITIES_FIELD.get(VILLAGER_GET_BEHAVIOUR_CONTROLLER_METHOD.invoke(VILLAGER_GET_HANDLE_METHOD.invoke(villager)))).add(currentActivity);
+            set.add(currentActivity);
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
