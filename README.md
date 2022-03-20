@@ -16,8 +16,9 @@ Minecraft tracks a lot of entities, even if they are outside the tracking range 
 마인크래프트는 플레이어의 추적 범위를 벗어나더라도 많은 실체를 추적하는데, 이는 정상적인 행동이지만 30명 이상의 플레이어를 보유한 1.14.4~1.18 서버의 경우 tps를 매우 잡아먹습니다. 따라서 이 플러그인은 설정된 모든 틱을 추적 해제하고 플레이어가 근처에 있을 경우 다시 추적합니다.
 
 ```yaml
+
 #Clearlag Plugin
-#Last Reload Date : 2022-01-04 22:59:19
+#Last Reload Date : 2022-03-10 20:32:19
 
 
 
@@ -26,10 +27,17 @@ Minecraft tracks a lot of entities, even if they are outside the tracking range 
 log-to-console: false
 
 
+# Should we disable tick operations of un-tracked entities?
+# Note 1: this option only works for +1.16.1 servers
+# Note 2: this option is experimental and could contain errors
+# - Default value(s): true
+disable-tick-for-untracked-entities: true
+
+
 # How low should the server's TPS be before we do anything?
 # - Note: Setting this value above 20 will skip this check, allowing the tasks to run 24/7.
-# - Default value(s): 19.5
-tps-limit: 19.5
+# - Default value(s): 20.0
+tps-limit: 20.0
 
 
 # What entities should we ignore?
@@ -39,11 +47,10 @@ tps-limit: 19.5
 #   - ender_dragon
 #   - armor_stand
 ignore-entity-list:
-- creeper
-- villager
-- ender_dragon
-- armor_stand
-
+  - creeper
+  - villager
+  - ender_dragon
+  - armor_stand
 
 # Should we ignore an entity with a name?
 # - Default value(s): true
@@ -72,13 +79,19 @@ enable-on-all-worlds: true
 #   - world_nether
 #   - world_the_end
 worlds:
-- world
-- world_nether
-- world_the_end
+  - world
+  - world_nether
+  - world_the_end
+
+# Beta version
+# https://www.spigotmc.org/resources/villager-optimiser-1-14-2-1-16-5.68517/
+villager-enable: false
+# - Default value(s): 600
+ticks-per-allow-search: 600
 
 
 
-version: 1.3.1
+version: 1.5.0
 ```
 
 MiniLuca#7822
@@ -86,8 +99,8 @@ MiniLuca#7822
 Plugin statistics (플러그인 통계)
 https://bstats.org/plugin/bukkit/L-Clearlag/13638
 
-So far, 33,279 entities have been removed!
-지금까지 33,279마리의 엔티티를 제거했습니다!
+So far, 100,000,000 entities have been removed!
+지금까지 100,000,000 마리의 엔티티를 제거했습니다!
 
 #minecraft entity lag fix
 
