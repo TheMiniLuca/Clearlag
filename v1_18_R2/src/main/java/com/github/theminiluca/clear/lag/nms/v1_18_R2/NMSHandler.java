@@ -1,10 +1,9 @@
-package com.github.theminiluca.clear.lag.nms.v1_18_R1;
+package com.github.theminiluca.clear.lag.nms.v1_18_R2;
 
-import com.github.theminiluca.clear.lag.nms.v1_18_R1.tasks.CheckTask;
-import com.github.theminiluca.clear.lag.nms.v1_18_R1.tasks.UntrackerTask;
-import com.github.theminiluca.clear.lag.nms.v1_18_R1.tasks.villager.MainTask;
+import com.github.theminiluca.clear.lag.nms.v1_18_R2.tasks.CheckTask;
+import com.github.theminiluca.clear.lag.nms.v1_18_R2.tasks.UntrackerTask;
+import com.github.theminiluca.clear.lag.nms.v1_18_R2.tasks.villager.MainTask;
 import com.github.theminiluca.clear.lag.plugin.api.LatestNMS;
-import com.github.theminiluca.clear.lag.plugin.api.NMS;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;

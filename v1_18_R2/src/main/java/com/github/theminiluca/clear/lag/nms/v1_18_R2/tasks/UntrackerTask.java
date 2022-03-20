@@ -1,25 +1,19 @@
-package com.github.theminiluca.clear.lag.nms.v1_18_R1.tasks;
+package com.github.theminiluca.clear.lag.nms.v1_18_R2.tasks;
 
-import com.github.theminiluca.clear.lag.nms.v1_18_R1.entityTick.EntityTickManager;
+import com.github.theminiluca.clear.lag.nms.v1_18_R2.entityTick.EntityTickManager;
 import com.github.theminiluca.clear.lag.plugin.Clearlag;
 import com.github.theminiluca.clear.lag.plugin.api.Config;
 import com.github.theminiluca.clear.lag.plugin.api.Language;
 import com.github.theminiluca.clear.lag.plugin.api.util.ReflectionUtils;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ChunkProviderServer;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.level.PlayerChunkMap;
 import net.minecraft.server.level.WorldServer;
 import net.minecraft.server.network.ServerPlayerConnection;
-import net.minecraft.world.entity.boss.EntityComplexPart;
-import net.minecraft.world.entity.boss.enderdragon.EntityEnderDragon;
-import net.minecraft.world.entity.decoration.EntityArmorStand;
-import net.minecraft.world.entity.monster.EntityCreeper;
-import net.minecraft.world.entity.npc.EntityVillager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_18_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R2.CraftServer;
+import org.bukkit.craftbukkit.v1_18_R2.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -82,7 +76,7 @@ public class UntrackerTask extends BukkitRunnable {
         ChunkProviderServer cps = ws.k();
 
         try {
-            for (PlayerChunkMap.EntityTracker et : cps.a.I.values()) {
+            for (PlayerChunkMap.EntityTracker et : cps.a.J.values()) {
                 net.minecraft.world.entity.Entity nmsEnt = (net.minecraft.world.entity.Entity) trackerField.get(et);
                 if (nmsEnt instanceof EntityPlayer || Config.getInstance().isEnableEntity(nmsEnt.getBukkitEntity().getType().name())) {
                     continue;
@@ -97,7 +91,7 @@ public class UntrackerTask extends BukkitRunnable {
                     remove = true;
                 } else if (et.f.size() == 1) {
                     for (ServerPlayerConnection ep : et.f) {
-                        if (!isOnline(ep.d().co())) {
+                        if (!isOnline(ep.e().co())) {
                             remove = true;
                         }
                     }
@@ -115,7 +109,7 @@ public class UntrackerTask extends BukkitRunnable {
         }
 
         for (int id : toRemove) {
-            cps.a.I.remove(id);
+            cps.a.J.remove(id);
             EntityTickManager.getInstance().disableTicking(ws.a(id));
         }
 

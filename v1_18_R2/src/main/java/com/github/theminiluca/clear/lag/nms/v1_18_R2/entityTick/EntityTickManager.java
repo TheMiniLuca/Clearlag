@@ -1,9 +1,9 @@
-package com.github.theminiluca.clear.lag.nms.v1_18_R1.entityTick;
+package com.github.theminiluca.clear.lag.nms.v1_18_R2.entityTick;
 
 import com.github.theminiluca.clear.lag.plugin.Clearlag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.EntityInsentient;
-import org.bukkit.craftbukkit.v1_18_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_18_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

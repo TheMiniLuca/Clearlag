@@ -1,14 +1,14 @@
-package com.github.theminiluca.clear.lag.nms.v1_18_R1.tasks;
+package com.github.theminiluca.clear.lag.nms.v1_18_R2.tasks;
 
-import com.github.theminiluca.clear.lag.nms.v1_18_R1.NMSEntityTracker;
-import com.github.theminiluca.clear.lag.nms.v1_18_R1.entityTick.EntityTickManager;
+import com.github.theminiluca.clear.lag.nms.v1_18_R2.NMSEntityTracker;
+import com.github.theminiluca.clear.lag.nms.v1_18_R2.entityTick.EntityTickManager;
 import com.github.theminiluca.clear.lag.plugin.api.Config;
 import net.minecraft.server.level.ChunkProviderServer;
 import net.minecraft.server.level.WorldServer;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_18_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_18_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_18_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -48,7 +48,7 @@ public class CheckTask extends BukkitRunnable {
         for (Player player : Objects.requireNonNull(Bukkit.getWorld(worldName)).getPlayers()) {
             for (Entity ent : player.getNearbyEntities(d, d, d)) {
                 net.minecraft.world.entity.Entity nms = ((CraftEntity) ent).getHandle();
-                if (cps.a.I.containsKey(nms.ae()) || !nms.valid) {
+                if (cps.a.J.containsKey(nms.ae()) || !nms.valid) {
                     continue;
                 }
                 trackAgain.add(nms);

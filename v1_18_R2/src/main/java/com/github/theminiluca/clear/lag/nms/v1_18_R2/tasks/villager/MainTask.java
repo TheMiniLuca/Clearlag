@@ -1,8 +1,7 @@
-package com.github.theminiluca.clear.lag.nms.v1_18_R1.tasks.villager;
+package com.github.theminiluca.clear.lag.nms.v1_18_R2.tasks.villager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class MainTask implements Runnable {
     private final NormalActivityTask activityTask;

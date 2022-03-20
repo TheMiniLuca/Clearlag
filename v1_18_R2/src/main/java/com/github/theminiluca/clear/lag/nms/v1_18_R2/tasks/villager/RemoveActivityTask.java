@@ -1,11 +1,10 @@
-package com.github.theminiluca.clear.lag.nms.v1_18_R1.tasks.villager;
+package com.github.theminiluca.clear.lag.nms.v1_18_R2.tasks.villager;
 
-import com.github.theminiluca.clear.lag.nms.v1_18_R1.tasks.villager.utils.ActivityUtils;
+import com.github.theminiluca.clear.lag.nms.v1_18_R2.tasks.villager.utils.ActivityUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Villager;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class RemoveActivityTask implements Runnable {
     @Override

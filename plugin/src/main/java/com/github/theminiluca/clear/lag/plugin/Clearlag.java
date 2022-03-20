@@ -55,25 +55,28 @@ public class Clearlag extends JavaPlugin implements Listener {
                 nms = nmsHandler;
                 untrackerTask = nmsHandler.startUntrackerTask(this, Config.getInstance().getInt(Config.Enum.UNTRACKING_TICK));
                 checkTask = nmsHandler.startUCheckTask(this, Config.getInstance().getInt(Config.Enum.UNTRACKING_TICK));
-                try {
-                    if (LatestNMS.class.isAssignableFrom(clazz)) {
-                        LatestNMS latestNMS = (LatestNMS) clazz.getConstructor().newInstance();
-                        latestNMS.startTasks(plugin, Config.getInstance().getInt(Config.Enum.UNTRACKING_TICK));
-                    } else {
-                        throw new Exception("THIS VERSION IS NOT SUPPORT");
+                if (Config.getInstance().getBoolean(Config.Enum.VILLAGER_ENABLE)) {
+                    try {
+                        if (LatestNMS.class.isAssignableFrom(clazz)) {
+                            LatestNMS latestNMS = (LatestNMS) clazz.getConstructor().newInstance();
+                            latestNMS.startTasks(plugin, Config.getInstance().getInt(Config.Enum.UNTRACKING_TICK));
+                        } else {
+                            throw new Exception("THIS VERSION IS NOT SUPPORT");
+                        }
+                    } catch (final Exception e) {
+                        e.printStackTrace();
+                        getLogger().warning("      / \\");
+                        getLogger().warning("     /   \\");
+                        getLogger().warning("    /  |  \\");
+                        getLogger().warning("   /   |   \\      Anti-Villager-Lag IS NOT WORKING!");
+                        getLogger().warning("  /         \\     REASON : " + e.getMessage());
+                        getLogger().warning(" /     o     \\");
+                        getLogger().warning("/_____________\\");
                     }
-                } catch (final Exception e) {
-                    e.printStackTrace();
-                    getLogger().warning("      / \\");
-                    getLogger().warning("     /   \\");
-                    getLogger().warning("    /  |  \\");
-                    getLogger().warning("   /   |   \\      Anti-Villager-Lag IS NOT WORKING!");
-                    getLogger().warning("  /         \\     REASON : " + e.getMessage());
-                    getLogger().warning(" /     o     \\");
-                    getLogger().warning("/_____________\\");
                 }
             }
         } catch (final Exception e) {
+            e.printStackTrace();
             getLogger().warning("      / \\");
             getLogger().warning("     /   \\");
             getLogger().warning("    /  |  \\");
