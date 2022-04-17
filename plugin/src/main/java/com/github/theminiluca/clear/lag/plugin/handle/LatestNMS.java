@@ -1,4 +1,4 @@
-package com.github.theminiluca.clear.lag.plugin.api;
+package com.github.theminiluca.clear.lag.plugin.handle;
 
 import org.bukkit.plugin.Plugin;
 

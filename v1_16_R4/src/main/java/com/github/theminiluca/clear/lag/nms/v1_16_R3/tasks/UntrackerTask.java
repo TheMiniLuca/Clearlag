@@ -2,9 +2,9 @@ package com.github.theminiluca.clear.lag.nms.v1_16_R3.tasks;
 
 import com.github.theminiluca.clear.lag.nms.v1_16_R3.entityTick.EntityTickManager;
 import com.github.theminiluca.clear.lag.plugin.Clearlag;
-import com.github.theminiluca.clear.lag.plugin.api.Config;
-import com.github.theminiluca.clear.lag.plugin.api.Language;
-import com.github.theminiluca.clear.lag.plugin.api.util.ReflectionUtils;
+import com.github.theminiluca.clear.lag.plugin.handle.Config;
+import com.github.theminiluca.clear.lag.plugin.handle.Language;
+import com.github.theminiluca.clear.lag.plugin.handle.util.ReflectionUtils;
 import net.minecraft.server.v1_16_R3.ChunkProviderServer;
 import net.minecraft.server.v1_16_R3.EntityPlayer;
 import net.minecraft.server.v1_16_R3.PlayerChunkMap.EntityTracker;

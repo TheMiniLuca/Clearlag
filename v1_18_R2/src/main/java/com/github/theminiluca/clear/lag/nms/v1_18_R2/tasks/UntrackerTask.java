@@ -2,9 +2,9 @@ package com.github.theminiluca.clear.lag.nms.v1_18_R2.tasks;
 
 import com.github.theminiluca.clear.lag.nms.v1_18_R2.entityTick.EntityTickManager;
 import com.github.theminiluca.clear.lag.plugin.Clearlag;
-import com.github.theminiluca.clear.lag.plugin.api.Config;
-import com.github.theminiluca.clear.lag.plugin.api.Language;
-import com.github.theminiluca.clear.lag.plugin.api.util.ReflectionUtils;
+import com.github.theminiluca.clear.lag.plugin.handle.Config;
+import com.github.theminiluca.clear.lag.plugin.handle.Language;
+import com.github.theminiluca.clear.lag.plugin.handle.util.ReflectionUtils;
 import net.minecraft.server.level.ChunkProviderServer;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.level.PlayerChunkMap;
@@ -24,7 +24,6 @@ import java.util.Set;
 
 import static com.github.theminiluca.clear.lag.plugin.Clearlag.logger;
 import static com.github.theminiluca.clear.lag.plugin.Clearlag.removed;
-import static com.github.theminiluca.clear.lag.plugin.api.Config.*;
 
 public class UntrackerTask extends BukkitRunnable {
 

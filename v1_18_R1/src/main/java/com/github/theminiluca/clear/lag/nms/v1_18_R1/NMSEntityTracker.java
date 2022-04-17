@@ -1,12 +1,8 @@
 package com.github.theminiluca.clear.lag.nms.v1_18_R1;
 
-import com.github.theminiluca.clear.lag.plugin.api.util.ReflectionUtils;
+import com.github.theminiluca.clear.lag.plugin.handle.util.ReflectionUtils;
 import net.minecraft.server.level.ChunkProviderServer;
 import net.minecraft.server.level.PlayerChunkMap;
-import net.minecraft.world.entity.EntityLiving;
-import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

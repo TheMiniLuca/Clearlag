@@ -2,7 +2,7 @@ package com.github.theminiluca.clear.lag.nms.v1_17_R1.tasks;
 
 import com.github.theminiluca.clear.lag.nms.v1_17_R1.NMSEntityTracker;
 import com.github.theminiluca.clear.lag.nms.v1_17_R1.entityTick.EntityTickManager;
-import com.github.theminiluca.clear.lag.plugin.api.Config;
+import com.github.theminiluca.clear.lag.plugin.handle.Config;
 import net.minecraft.server.level.ChunkProviderServer;
 import net.minecraft.server.level.WorldServer;
 import org.bukkit.Bukkit;

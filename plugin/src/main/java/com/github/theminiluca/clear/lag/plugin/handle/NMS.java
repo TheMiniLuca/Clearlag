@@ -1,10 +1,8 @@
-package com.github.theminiluca.clear.lag.plugin.api;
+package com.github.theminiluca.clear.lag.plugin.handle;
 
-import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 public interface NMS {
@@ -12,5 +10,5 @@ public interface NMS {
 
     BukkitTask startUCheckTask(Plugin plugin, int tick);
 
-    List<String> Entities(boolean isname);
+    List<String> getEntities(boolean isname);
 }

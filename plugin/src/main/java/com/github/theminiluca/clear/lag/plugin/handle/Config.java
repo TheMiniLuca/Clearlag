@@ -1,4 +1,4 @@
-package com.github.theminiluca.clear.lag.plugin.api;
+package com.github.theminiluca.clear.lag.plugin.handle;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -242,7 +242,7 @@ public class Config {
     }
 
     public String getEntityType(String name) {
-        return nms.Entities(false).stream().filter(s -> {
+        return nms.getEntities(false).stream().filter(s -> {
             assert s != null;
             return s.equalsIgnoreCase(name);
         }).findFirst().orElseThrow(IllegalArgumentException::new);
