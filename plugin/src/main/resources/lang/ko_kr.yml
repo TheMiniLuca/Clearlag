@@ -1,0 +1,92 @@
+####################################################################################################
+#                                                                                                  #
+#                                       __          ___    _     __                                #
+#                          |      ───  /  `  |     |__    /_\   |__)                               #
+#                          |___        \__,  |___  |___  /   \  |  \                               #
+#                                                                                                  #
+#                                                         _    __                                  #
+#                                                  |     /_\  / _                                  #
+#                                                  |___ /   \ \__/                                 #
+#                                                                                                  #
+#                                                                                                  #
+#                                                                                                  #
+#                                                                                                  #
+#                                       MiniLuca#7822                                              #
+#                                 당신의 서버 렉을 완전하게 해결합니다!                                  #
+#                                  [ 1.14.4   -   1.18.2 ]                                         #
+#                                                                                                  #
+#  SPIGOT:      https://www.spigotmc.org/resources/l-clearlag.98464/                               #
+# └ https://www.spigotmc.org/resources/entitytrackerfixer-fix-1-14-4-1-16-2-entitytick-lag.70902/  #
+# └ https://www.spigotmc.org/resources/villager-optimiser-1-14-2-1-16-5.68517/                     #
+#                                                                                                  #
+####################################################################################################
+
+# 엔티티를 추적 해제할때 콘솔에 알릴까요?
+# - 기본값 : false
+log-to-console: false
+
+
+# 추적되지 않는 엔티티의 틱 작업을 사용하지 않도록 설정할까요?
+# 참고 1: 이 옵션은 +1.16.1 서버에서만 작동합니다.
+# - 기본값 : true
+disable-tick-for-untracked-entities: true
+
+
+# TPS가 어느정도로 낮을때 엔티티 추적 해제 작업을 수행할까요?
+# - 참고: 이 값을 20 이상으로 설정하면 이 검사를 건너뛰어 24시간 365일 작업을 실행할 수 있습니다.
+# - 기본값: 20.0
+tps-limit: 20.0
+
+
+# 추적 해제 작업을 무시할 엔티티는 무엇이 있을까요?
+# - 기본값 :
+#   - creeper
+#   - villager
+#   - ender_dragon
+#   - armor_stand
+ignore-entity-list:
+  - creeper
+  - villager
+  - ender_dragon
+  - armor_stand
+
+# 이름을 가지고 있는 엔티티는 추적해제를 무시할까요?
+# - 기본값 : true
+ignore-entity-name: true
+
+
+# 주변 플레이어가 얼마나 멀리 떨어져 있어야 ( 블럭 단위 ) 추적 해제 작업을 무시할까요?
+# - 기본값 : 50
+tracking-range: 50
+
+
+# 몇 주기로 엔티티 추적을 해제할까요? (틱 단위 )
+# - 기본값: 1000
+untrack-ticks: 1000
+
+
+# 모든 월드에서 해당 작업을 수행할까요??
+# 참고 - 이 설정을 true 로 설정하면 worlds 설정은 무시됩니다.
+# - 기본값: true
+enable-on-all-worlds: true
+
+
+# 어느 월드에서 엔티티 추적 해제 작업을 수행합니까?
+# - 기본값:
+#   - world
+#   - world_nether
+#   - world_the_end
+worlds:
+  - world
+  - world_nether
+  - world_the_end
+
+# Beta version
+# https://www.spigotmc.org/resources/villager-optimiser-1-14-2-1-16-5.68517/
+villager-enable: false
+# - Default value(s): 600
+ticks-per-allow-search: 600
+
+
+
+version: 1.5.0

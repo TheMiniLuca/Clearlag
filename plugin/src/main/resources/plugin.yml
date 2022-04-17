@@ -1,11 +1,11 @@
 name: L-Clearlag
 main: com.github.theminiluca.clear.lag.plugin.Clearlag
 version: 1.5.0
-api-version: 1.13
+api-version: 1.14
 authors:
   - TheMiniLuca
   - Elecast2
 commands:
   clearlag:
     permission: clearlag.*
-    description: clearlag plugin command
+    description: A defaults command.

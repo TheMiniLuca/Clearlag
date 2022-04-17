@@ -1,0 +1,92 @@
+####################################################################################################
+#                                                                                                  #
+#                                       __          ___    _     __                                #
+#                          |      ───  /  `  |     |__    /_\   |__)                               #
+#                          |___        \__,  |___  |___  /   \  |  \                               #
+#                                                                                                  #
+#                                                         _    __                                  #
+#                                                  |     /_\  / _                                  #
+#                                                  |___ /   \ \__/                                 #
+#                                                                                                  #
+#                                                                                                  #
+#                                                                                                  #
+#                                                                                                  #
+#                                       MiniLuca#7822                                              #
+#                            Complete lag resolution in servers!                                   #
+#                                  [ 1.14.4   -   1.18.2 ]                                         #
+#                                                                                                  #
+#  SPIGOT:      https://www.spigotmc.org/resources/l-clearlag.98464/                               #
+# └ https://www.spigotmc.org/resources/entitytrackerfixer-fix-1-14-4-1-16-2-entitytick-lag.70902/  #
+# └ https://www.spigotmc.org/resources/villager-optimiser-1-14-2-1-16-5.68517/                     #
+#                                                                                                  #
+####################################################################################################
+
+# Should we notify the console when we interact with entities?
+# - Default value(s): false
+log-to-console: false
+
+
+# Should we disable tick operations of un-tracked entities?
+# Note 1: this option only works for +1.16.1 servers
+# - Default value(s): true
+disable-tick-for-untracked-entities: true
+
+
+# How low should the server's TPS be before we do anything?
+# - Note: Setting this value above 20 will skip this check, allowing the tasks to run 24/7.
+# - Default value(s): 20.0
+tps-limit: 20.0
+
+
+# What entities should we ignore?
+# - Default value(s):
+#   - creeper
+#   - villager
+#   - ender_dragon
+#   - armor_stand
+ignore-entity-list:
+  - creeper
+  - villager
+  - ender_dragon
+  - armor_stand
+
+# Should we ignore an entity with a name?
+# - Default value(s): true
+ignore-entity-name: true
+
+
+# How far (in blocks) should we look for players near un-tracked entities?
+# - Default value(s): 50
+tracking-range: 50
+
+
+# How often (in ticks) should we check for "lingering" entities?
+# - Default value(s): 1000
+untrack-ticks: 1000
+
+
+# Should the plugin perform tasks on all worlds?
+# Note: if this is set to true, the option "worlds" will be ignored
+# - Default value(s): true
+enable-on-all-worlds: true
+
+
+# What worlds should we perform our tasks on?
+# - Default value(s):
+#   - world
+#   - world_nether
+#   - world_the_end
+worlds:
+  - world
+  - world_nether
+  - world_the_end
+
+# Beta version
+# https://www.spigotmc.org/resources/villager-optimiser-1-14-2-1-16-5.68517/
+villager-enable: false
+# - Default value(s): 600
+ticks-per-allow-search: 600
+
+
+
+version: 1.5.0
