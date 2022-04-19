@@ -24,12 +24,12 @@ public class CheckTask extends BukkitRunnable {
         if (UntrackerTask.isRunning()) {
             return;
         }
-        if (Config.getInstance().getBoolean(Config.Enum.ENABLE_ON_ALL_WORLDS)) {
+        if (Config.instance.getBoolean(Config.Option.ENABLE_ON_ALL_WORLDS)) {
             for (World world : Bukkit.getWorlds()) {
                 checkWorld(world.getName());
             }
         } else {
-            for (String worldName : Config.getInstance().getList(Config.Enum.WORLDS)) {
+            for (String worldName : Config.instance.getList(Config.Option.WORLDS)) {
                 if (Bukkit.getWorld(worldName) == null) {
                     continue;
                 }
@@ -45,7 +45,7 @@ public class CheckTask extends BukkitRunnable {
 
         Set<net.minecraft.world.entity.Entity> trackAgain = new HashSet<>();
 
-        int d = Config.getInstance().getInt(Config.Enum.TRACKING_RANGE);
+        int d = Config.instance.getInt(Config.Option.TRACKING_RANGE);
         for (Player player : Objects.requireNonNull(Bukkit.getWorld(worldName)).getPlayers()) {
             for (Entity ent : player.getNearbyEntities(d, d, d)) {
                 net.minecraft.world.entity.Entity nms = ((CraftEntity) ent).getHandle();
@@ -56,7 +56,7 @@ public class CheckTask extends BukkitRunnable {
             }
         }
         NMSEntityTracker.trackEntities(cps, trackAgain);
-        if (Config.getInstance().getBoolean(Config.Enum.DISABLE_TICK_FOR_UNTRACKED_ENTITIES))
+        if (Config.instance.getBoolean(Config.Option.DISABLE_TICK_FOR_UNTRACKED_ENTITIES))
             EntityTickManager.getInstance().enableTicking(trackAgain);
     }
 

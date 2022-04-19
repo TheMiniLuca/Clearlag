@@ -39,16 +39,16 @@ public class UntrackerTask extends BukkitRunnable {
     @SuppressWarnings({"resource"})
     @Override
     public void run() {
-        if (((CraftServer) Bukkit.getServer()).getServer().recentTps[0] > Config.getInstance().getDouble(Config.Enum.TPS_LIMIT)) {
+        if (((CraftServer) Bukkit.getServer()).getServer().recentTps[0] > Config.instance.getDouble(Config.Option.TPS_LIMIT)) {
             return;
         }
         running = true;
-        if (Config.getInstance().getBoolean(Config.Enum.ENABLE_ON_ALL_WORLDS)) {
+        if (Config.instance.getBoolean(Config.Option.ENABLE_ON_ALL_WORLDS)) {
             for (World world : Bukkit.getWorlds()) {
                 untrackProcess(world.getName());
             }
         } else {
-            for (String worldName : Config.getInstance().getList(Config.Enum.WORLDS)) {
+            for (String worldName : Config.instance.getList(Config.Option.WORLDS)) {
                 untrackProcess(worldName);
             }
         }
@@ -65,10 +65,10 @@ public class UntrackerTask extends BukkitRunnable {
         try {
             for (PlayerChunkMap.EntityTracker et : cps.playerChunkMap.trackedEntities.values()) {
                 net.minecraft.server.v1_15_R1.Entity nmsEnt = (net.minecraft.server.v1_15_R1.Entity) trackerField.get(et);
-                if (nmsEnt instanceof EntityPlayer || Config.getInstance().isEnableEntity(nmsEnt.getBukkitEntity().getType().name())) {
+                if (nmsEnt instanceof EntityPlayer || Config.instance.isEnableEntity(nmsEnt.getBukkitEntity().getType().name())) {
                     continue;
                 }
-                if (Config.getInstance().getBoolean(Config.Enum.IGNORE_ENTITY_NAME)) {
+                if (Config.instance.getBoolean(Config.Option.IGNORE_ENTITY_NAME)) {
                     if (nmsEnt.getCustomName() != null) {
                         continue;
                     }
@@ -100,7 +100,7 @@ public class UntrackerTask extends BukkitRunnable {
 
         }
 
-        if (Config.getInstance().getBoolean(Config.Enum.LOG_TO_CONSOLE)) {
+        if (Config.instance.getBoolean(Config.Option.LOG_TO_CONSOLE)) {
             if (removed > 0) {
                 logger.info(Language.getUntrackingLog(removed, worldName));
             }

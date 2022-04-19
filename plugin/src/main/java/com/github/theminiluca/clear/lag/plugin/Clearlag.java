@@ -31,9 +31,8 @@ public class Clearlag extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        reloadConfig();
-        saveConfig();
-        Config.setup(this);
+        new Language(this).setup();
+        new Config(this).setup();
         plugin = this;
         metrics = new Metrics(this, 13638);
         metrics.addCustomChart(new Metrics.SingleLineChart("removed", () -> removed));
@@ -45,13 +44,13 @@ public class Clearlag extends JavaPlugin implements Listener {
             if (NMS.class.isAssignableFrom(clazz)) {
                 NMS nmsHandler = (NMS) clazz.getConstructor().newInstance();
                 nms = nmsHandler;
-                untrackerTask = nmsHandler.startUntrackerTask(this, Config.getInstance().getInt(Config.Enum.UNTRACKING_TICK));
-                checkTask = nmsHandler.startUCheckTask(this, Config.getInstance().getInt(Config.Enum.UNTRACKING_TICK));
-                if (Config.getInstance().getBoolean(Config.Enum.VILLAGER_ENABLE)) {
+                untrackerTask = nmsHandler.startUntrackerTask(this, Config.instance.getInt(Config.Option.UNTRACKING_TICK));
+                checkTask = nmsHandler.startUCheckTask(this, Config.instance.getInt(Config.Option.UNTRACKING_TICK));
+                if (Config.instance.getBoolean(Config.Option.VILLAGER_ENABLE)) {
                     try {
                         if (LatestNMS.class.isAssignableFrom(clazz)) {
                             LatestNMS latestNMS = (LatestNMS) clazz.getConstructor().newInstance();
-                            latestNMS.startTasks(plugin, Config.getInstance().getInt(Config.Enum.UNTRACKING_TICK));
+                            latestNMS.startTasks(plugin, Config.instance.getInt(Config.Option.UNTRACKING_TICK));
                         } else {
                             throw new Exception("THIS VERSION IS NOT SUPPORT");
                         }
@@ -109,7 +108,6 @@ public class Clearlag extends JavaPlugin implements Listener {
         logger.info(ChatColor.GREEN + "✔ While this server was running, " + ChatColor.UNDERLINE + "" + removed + ChatColor.GREEN + " canceled tracking of entities!");
         reloadConfig();
         saveConfig();
-        Config.setup(this);
     }
 
     @EventHandler
@@ -137,9 +135,8 @@ public class Clearlag extends JavaPlugin implements Listener {
             if (args.length > 0) {
                 if ("reload".equalsIgnoreCase(args[0])) {
                     sender.sendMessage(ChatColor.GREEN + "[CLEARLAG] Config.yml was successfully reloaded.");
-                    reloadConfig();
-                    saveConfig();
-                    Config.setup(this);
+                    new Config(this).setup();
+                    return false;
                 }
                 if ("removed".equalsIgnoreCase(args[0])) {
                     sender.sendMessage(ChatColor.GREEN + "✔ While this server was running, " + ChatColor.UNDERLINE + "" + removed + ChatColor.GREEN + " canceled tracking of entities!");
