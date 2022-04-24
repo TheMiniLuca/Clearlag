@@ -18,6 +18,9 @@ public class UpdateChecker {
         this.resourseId = resourseId;
     }
 
+    public String getURL() {
+        return "https://www.spigotmc.org/resources/clearlag.98464/";
+    }
     public void getLastVersion(Consumer<String> consumer) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.resourseId).openStream()) {

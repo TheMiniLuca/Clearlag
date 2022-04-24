@@ -1,5 +1,6 @@
 package com.github.theminiluca.clear.lag.plugin;
 
+import com.github.theminiluca.clear.lag.plugin.chunk.EntityLimit;
 import com.github.theminiluca.clear.lag.plugin.handle.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -11,13 +12,18 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
 public class Clearlag extends JavaPlugin implements Listener {
 
     public static Clearlag plugin;
-    public String version;
+    public PluginVersion version;
 
     private static BukkitTask untrackerTask;
     private static BukkitTask checkTask;
@@ -31,11 +37,12 @@ public class Clearlag extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        new Language(this).setup();
         new Config(this).setup();
+        new Language(this).setup();
         plugin = this;
         metrics = new Metrics(this, 13638);
         metrics.addCustomChart(new Metrics.SingleLineChart("removed", () -> removed));
+        metrics.addCustomChart(new Metrics.SimplePie("used_language", () -> System.getProperty("user.language") + "_" + System.getProperty("user.country").toLowerCase()));
         String packageName = this.getServer().getClass().getPackage().getName();
         AtomicReference<String> version = new AtomicReference<>(packageName.substring(packageName.lastIndexOf('.') + 1));
         plugin = this;
@@ -52,7 +59,7 @@ public class Clearlag extends JavaPlugin implements Listener {
                             LatestNMS latestNMS = (LatestNMS) clazz.getConstructor().newInstance();
                             latestNMS.startTasks(plugin, Config.instance.getInt(Config.Option.UNTRACKING_TICK));
                         } else {
-                            throw new Exception("THIS VERSION IS NOT SUPPORT");
+                            throw new Exception(Language.getProperties(Language.PropertiesKey.NOT_SUPPORT_VERSION));
                         }
                     } catch (final Exception e) {
                         e.printStackTrace();
@@ -78,21 +85,22 @@ public class Clearlag extends JavaPlugin implements Listener {
             this.getPluginLoader().disablePlugin(this);
             return;
         }
+        if (Config.instance.getBoolean(Config.Option.CHUNK_ENTITY_LIMIT)) {
+            this.getServer().getPluginManager().registerEvents(new EntityLimit(), this);
+        }
         getServer().getPluginManager().registerEvents(this, this);
         new UpdateChecker(this, 98464).getLastVersion(var -> {
-            String v = this.getDescription().getVersion();
-            if (!v.contains("Beta"))
-                logger.info(ChatColor.GREEN + "[L-CLEARLAG] The plugin is operating on that server!");
-            else
-                logger.info(ChatColor.DARK_RED + "[L-CLEARLAG] The plugin is operating on that server! BETA VERSION!");
-            if (v.contains("Beta")) return;
-            if (v.equalsIgnoreCase(var)) {
-                logger.info("this is plugin latest version");
-            } else {
-                logger.warning("this is plugin old version! please update! ( new version : " + var + " )");
-                logger.warning("https://www.spigotmc.org/resources/clearlag.98464/");
-            }
-            this.version = var;
+            this.version = new PluginVersion(var, plugin);
+            if (!this.version.isBeta()) {
+                logger.info(Language.getProperties(Language.PropertiesKey.OPERATING_MESSAGE));
+                if (this.version.isLatestVersion()) {
+                    logger.info(Language.getProperties(Language.PropertiesKey.LATEST_SYSTEM_USE));
+                } else {
+                    logger.warning(Language.getProperties(Language.PropertiesKey.OLD_SYSTEM_USE, this.version.getLatestVersion()));
+                    logger.warning("https://www.spigotmc.org/resources/clearlag.98464/");
+                }
+            } else
+                logger.info(Language.getProperties(Language.PropertiesKey.OPERATING_MESSAGE_BETA));
         });
 
     }
@@ -105,7 +113,7 @@ public class Clearlag extends JavaPlugin implements Listener {
         } catch (NullPointerException ignore) {
 
         }
-        logger.info(ChatColor.GREEN + "✔ While this server was running, " + ChatColor.UNDERLINE + "" + removed + ChatColor.GREEN + " canceled tracking of entities!");
+        logger.info(Language.getProperties(Language.PropertiesKey.UNTRACKING_AMOUNT, removed));
         reloadConfig();
         saveConfig();
     }
@@ -113,17 +121,18 @@ public class Clearlag extends JavaPlugin implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        String version = this.getDescription().getVersion();
         if (player.isOp() || player.getUniqueId().toString().equalsIgnoreCase("f47b3f97-4891-43e7-a5d3-5c3b98c2b3f7")) {
-            if (!version.contains("Beta"))
-                player.sendMessage(ChatColor.GREEN + "[L-CLEARLAG] The plugin is operating on that server!");
+            if (!version.isBeta())
+                player.sendMessage(Language.getProperties(Language.PropertiesKey.OPERATING_MESSAGE));
             else {
-                player.sendMessage(ChatColor.DARK_RED + "[L-CLEARLAG] The plugin is operating on that server! BETA VERSION!");
+                player.sendMessage(Language.getProperties(Language.PropertiesKey.OPERATING_MESSAGE_BETA));
                 return;
             }
-            if (!version.equalsIgnoreCase(this.version)) {
-                player.sendMessage(ChatColor.RED + "this is plugin old version! please update! ( new version : " + this.version + " )");
+            if (!version.isLatestVersion()) {
+                player.sendMessage(Language.getProperties(Language.PropertiesKey.OLD_SYSTEM_USE, this.version.getLatestVersion()));
                 player.sendMessage(ChatColor.RED + "https://www.spigotmc.org/resources/clearlag.98464/");
+            } else {
+                player.sendMessage(Language.getProperties(Language.PropertiesKey.LATEST_SYSTEM_USE));
             }
 
         }
@@ -134,20 +143,18 @@ public class Clearlag extends JavaPlugin implements Listener {
         if (label.equalsIgnoreCase("clearlag")) {
             if (args.length > 0) {
                 if ("reload".equalsIgnoreCase(args[0])) {
-                    sender.sendMessage(ChatColor.GREEN + "[CLEARLAG] Config.yml was successfully reloaded.");
+                    sender.sendMessage(Language.getProperties(Language.PropertiesKey.SUCCESSFULLY_RELOADED));
                     new Config(this).setup();
                     return false;
                 }
                 if ("removed".equalsIgnoreCase(args[0])) {
-                    sender.sendMessage(ChatColor.GREEN + "✔ While this server was running, " + ChatColor.UNDERLINE + "" + removed + ChatColor.GREEN + " canceled tracking of entities!");
+                    sender.sendMessage(Language.getProperties(Language.PropertiesKey.UNTRACKING_AMOUNT, removed));
                 }
                 if ("version".equalsIgnoreCase(args[0])) {
-                    sender.sendMessage(ChatColor.GREEN + "✔ version : " + this.getDescription().getVersion());
+                    sender.sendMessage(Language.getProperties(Language.PropertiesKey.DEFAULTS_PLUGIN_VERSION, version.getVersion()));
                 }
             } else {
-                sender.sendMessage("/clearlag reload - config reload");
-                sender.sendMessage("/clearlag removed - View the number of entities whose tracking has been canceled so far.");
-                sender.sendMessage("/clearlag version - View the version of the plugin.");
+                sender.sendMessage(Language.getListProperties(Language.PropertiesKey.DEFAULTS_COMMAND_HELP));
             }
         }
         return false;

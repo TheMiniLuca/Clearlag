@@ -63,7 +63,7 @@ public class UntrackerTask extends BukkitRunnable {
         Set<Integer> toRemove = new HashSet<>();
         WorldServer ws = ((CraftWorld) Objects.requireNonNull(Bukkit.getWorld(worldName))).getHandle();
         ChunkProviderServer cps = ws.getChunkProvider();
-
+        int removed = 0;
         try {
             for (EntityTracker et : cps.playerChunkMap.trackedEntities.values()) {
                 net.minecraft.server.v1_16_R3.Entity nmsEnt = (net.minecraft.server.v1_16_R3.Entity) trackerField.get(et);
@@ -90,6 +90,7 @@ public class UntrackerTask extends BukkitRunnable {
                 }
                 if (remove) {
                     toRemove.add(nmsEnt.getId());
+                    removed++;
                     Clearlag.removed++;
                 }
             }
@@ -104,7 +105,7 @@ public class UntrackerTask extends BukkitRunnable {
 
         if (Config.instance.getBoolean(Config.Option.LOG_TO_CONSOLE)) {
             if(removed > 0) {
-                logger.info(Language.getUntrackingLog(removed, worldName));
+                logger.info(Language.getProperties(Language.PropertiesKey.UNTRACKING_LOG, removed, worldName));
             }
         }
     }

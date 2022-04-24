@@ -9,6 +9,4 @@ public interface NMS {
     BukkitTask startUntrackerTask(Plugin plugin, int tick);
 
     BukkitTask startUCheckTask(Plugin plugin, int tick);
-
-    List<String> getEntities(boolean isname);
 }

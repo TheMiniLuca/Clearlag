@@ -21,16 +21,5 @@ public class NMSHandler implements NMS {
 		return new CheckTask().runTaskTimer(plugin, tick, tick);
 	}
 
-	@Override
-	public List<String> getEntities(boolean isname) {
-		List<String> al = new ArrayList<>();
-		for (EntityType type : EntityType.values()) {
-			if (isname)
-				al.add(type.getName());
-			else
-				al.add(type.name());
-		}
-		return al;
-	}
 
 }
