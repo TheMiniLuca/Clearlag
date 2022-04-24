@@ -16,11 +16,28 @@ Minecraft tracks a lot of entities, even if they are outside the tracking range 
 마인크래프트는 플레이어의 추적 범위를 벗어나더라도 많은 실체를 추적하는데, 이는 정상적인 행동이지만 30명 이상의 플레이어를 보유한 1.14.4~1.18 서버의 경우 tps를 매우 잡아먹습니다. 따라서 이 플러그인은 설정된 모든 틱을 추적 해제하고 플레이어가 근처에 있을 경우 다시 추적합니다.
 
 ```yaml
-
-#Clearlag Plugin
-#Last Reload Date : 2022-03-10 20:32:19
-
-
+####################################################################################################
+#                                                                                                  #
+#                                       __          ___    _     __                                #
+#                          |      ───  /  `  |     |__    /_\   |__)                               #
+#                          |___        \__,  |___  |___  /   \  |  \                               #
+#                                                                                                  #
+#                                                         _    __                                  #
+#                                                  |     /_\  / _                                  #
+#                                                  |___ /   \ \__/                                 #
+#                                                                                                  #
+#                                                                                                  #
+#                                                                                                  #
+#                                                                                                  #
+#                                       MiniLuca#7822                                              #
+#                            Complete lag resolution in servers!                                   #
+#                                  [ 1.14.4   -   1.18.2 ]                                         #
+#                                                                                                  #
+#  SPIGOT:      https://www.spigotmc.org/resources/l-clearlag.98464/                               #
+# └ https://www.spigotmc.org/resources/entitytrackerfixer-fix-1-14-4-1-16-2-entitytick-lag.70902/  #
+# └ https://www.spigotmc.org/resources/villager-optimiser-1-14-2-1-16-5.68517/                     #
+#                                                                                                  #
+####################################################################################################
 
 # Should we notify the console when we interact with entities?
 # - Default value(s): false
@@ -29,7 +46,6 @@ log-to-console: false
 
 # Should we disable tick operations of un-tracked entities?
 # Note 1: this option only works for +1.16.1 servers
-# Note 2: this option is experimental and could contain errors
 # - Default value(s): true
 disable-tick-for-untracked-entities: true
 
@@ -83,6 +99,20 @@ worlds:
   - world_nether
   - world_the_end
 
+# Do you use a system to limit the number of entities per chunk?
+# - Default value(s): false
+chunk-entity-limit-enable: false
+
+# Limits the number of entities per chunk.
+# - Precaution: If set to pig:10, only 10 animals will be spawn per bundle.
+# - Note : Set to all:10 and you can have up to 10 entities per chunk.
+# Default value(s):
+#  - all:70
+entity-limit:
+  - all:70
+
+
+
 # Beta version
 # https://www.spigotmc.org/resources/villager-optimiser-1-14-2-1-16-5.68517/
 villager-enable: false
@@ -91,7 +121,7 @@ ticks-per-allow-search: 600
 
 
 
-version: 1.5.0
+version: 1.6.0
 ```
 
 MiniLuca#7822
