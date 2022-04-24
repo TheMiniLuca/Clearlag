@@ -81,6 +81,20 @@ worlds:
   - world_nether
   - world_the_end
 
+# Do you use a system to limit the number of entities per chunk?
+# - Default value(s): false
+chunk-entity-limit-enable: false
+
+# Limits the number of entities per chunk.
+# - Precaution: If set to pig:10, only 10 animals will be spawn per bundle.
+# - Note : Set to all:10 and you can have up to 10 entities per chunk.
+# Default value(s):
+#  - all:70
+entity-limit:
+  - all:70
+
+
+
 # Beta version
 # https://www.spigotmc.org/resources/villager-optimiser-1-14-2-1-16-5.68517/
 villager-enable: false
