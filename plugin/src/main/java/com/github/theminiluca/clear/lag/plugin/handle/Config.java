@@ -44,7 +44,12 @@ public class Config {
         File language_file = new File(plugin.getDataFolder() + "/lang");
         if (!language_file.exists())
             language_file.mkdir();
-        String system_language = System.getProperty("user.language") + "_" + System.getProperty("user.country").toLowerCase();
+        String system_language = null;
+        try {
+            system_language = System.getProperty("user.language") + "_" + System.getProperty("user.country").toLowerCase();
+        } catch (NullPointerException e) {
+            system_language = "en_us";
+        }
         Clearlag.logger.info(ChatColor.GREEN + "Found of " + system_language + " system language!");
         if (!support_language.contains(system_language)) {
             Clearlag.logger.info(ChatColor.RED + "Set to en_us.properties file!");

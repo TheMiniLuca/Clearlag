@@ -55,8 +55,8 @@ public class Clearlag extends JavaPlugin implements Listener {
                 checkTask = nmsHandler.startUCheckTask(this, Config.instance.getInt(Config.Option.UNTRACKING_TICK));
                 if (Config.instance.getBoolean(Config.Option.VILLAGER_ENABLE)) {
                     try {
-                        if (LatestNMS.class.isAssignableFrom(clazz)) {
-                            LatestNMS latestNMS = (LatestNMS) clazz.getConstructor().newInstance();
+                        if (VillagerOptimiserAble.class.isAssignableFrom(clazz)) {
+                            VillagerOptimiserAble latestNMS = (VillagerOptimiserAble) clazz.getConstructor().newInstance();
                             latestNMS.startTasks(plugin, Config.instance.getInt(Config.Option.UNTRACKING_TICK));
                         } else {
                             throw new Exception(Language.getProperties(Language.PropertiesKey.NOT_SUPPORT_VERSION));

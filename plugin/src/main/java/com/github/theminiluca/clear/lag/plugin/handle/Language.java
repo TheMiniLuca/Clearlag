@@ -90,6 +90,10 @@ public class Language {
             this.clazz = clazz;
         }
 
+        @Override
+        public String toString() {
+            return property;
+        }
 
         public String property() {
             return property;

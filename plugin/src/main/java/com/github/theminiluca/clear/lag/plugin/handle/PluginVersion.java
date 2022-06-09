@@ -22,7 +22,7 @@ public class PluginVersion {
 
     public boolean isLatestVersion() {
         return Integer.parseInt(version.replace(".", "").replace("Beta", ""))
-                > Integer.parseInt(latestVersion.replace(".", "").replace("Beta", ""));
+                >= Integer.parseInt(latestVersion.replace(".", "").replace("Beta", ""));
     }
 
     public boolean isBeta() {
