@@ -7,7 +7,7 @@ The plugin completely resolves the entity lag of versions 1.14/1.15/1.16/1.17/1.
 Has no method been able to solve entity lag so far?
 Use this plugin!
 
-이 플러그인은 버전 1.14/1.15/1.16/1.17/1.18의 엔티티 랙을 완전히 해결합니다!
+이 플러그인은 버전 1.14/1.15/1.16/1.17/1.18/1.19의 엔티티 랙을 완전히 해결합니다!
 
 ### How does it works?
 Minecraft tracks a lot of entities, even if they are outside the tracking range of the player, that's a normal behavior but is a tps killer for 1.14.4 to 1.18 servers with more than 30 players. So what this plugin do is untrack those entities every configured ticks and track them again if the player is near.
@@ -31,7 +31,7 @@ Minecraft tracks a lot of entities, even if they are outside the tracking range 
 #                                                                                                  #
 #                                       MiniLuca#7822                                              #
 #                            Complete lag resolution in servers!                                   #
-#                                  [ 1.14.4   -   1.18.2 ]                                         #
+#                                  [ 1.14.4    -    1.19 ]                                         #
 #                                                                                                  #
 #  SPIGOT:      https://www.spigotmc.org/resources/l-clearlag.98464/                               #
 # └ https://www.spigotmc.org/resources/entitytrackerfixer-fix-1-14-4-1-16-2-entitytick-lag.70902/  #
@@ -121,7 +121,7 @@ ticks-per-allow-search: 600
 
 
 
-version: 1.6.0
+version: 1.7.1
 ```
 
 MiniLuca#7822
