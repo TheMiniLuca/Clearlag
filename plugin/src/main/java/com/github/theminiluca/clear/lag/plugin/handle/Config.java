@@ -52,6 +52,7 @@ public class Config {
         }
         Clearlag.logger.info(ChatColor.GREEN + "Found of " + system_language + " system language!");
         if (!support_language.contains(system_language)) {
+            system_language = "en_us";
             Clearlag.logger.info(ChatColor.RED + "Set to en_us.properties file!");
             Clearlag.logger.info(ChatColor.RED + "Set to en_us.yml file!");
         }
